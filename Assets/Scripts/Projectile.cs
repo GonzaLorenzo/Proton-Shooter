@@ -21,9 +21,9 @@ public class Projectile : MonoBehaviour
         return this;
     }
 
-    public Projectile SetMaterialColor(Color newColor)
+    public Projectile SetMaterial(Material newMaterial)
     {
-        GetComponent<Renderer>().material.color = newColor;
+        GetComponent<Renderer>().material = newMaterial;
         return this;
     }
 

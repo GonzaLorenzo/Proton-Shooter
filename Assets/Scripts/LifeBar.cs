@@ -21,7 +21,6 @@ public class LifeBar : MonoBehaviour
         _target.onDestroy += () => Destroy(gameObject);
         return this;
     }
-
     public LifeBar SetParent(Transform parent)
     {
         transform.SetParent(parent);

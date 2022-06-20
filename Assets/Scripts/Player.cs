@@ -7,8 +7,16 @@ using Photon.Realtime;
 
 public class Player : MonoBehaviourPun, IPunObservable
 {
+    private Vector2 _input;
+    private Animator _animator;
+    [SerializeField]
     private float _life;
+    private Camera _mainCamera;
     private Rigidbody _rb;
+    [SerializeField]
+    private float turnSpeed = 15f;
+    [SerializeField]
+    private float _cameraTurnOffset;
     [SerializeField]
     private float _maxLife;
     [SerializeField]
@@ -25,6 +33,12 @@ public class Player : MonoBehaviourPun, IPunObservable
     private Material _myMaterial;
     [SerializeField]
     private Material _enemyMaterial;
+    [SerializeField]
+    private Transform _myShoulder;
+    [SerializeField]
+    private GameObject _myThirdPersonCamera;
+    [SerializeField]
+    private GameObject _myAimingCamera;
 
     public event Action<float> onLifeBarUpdate = delegate { };
     public event Action onDestroy = delegate { };
@@ -39,9 +53,11 @@ public class Player : MonoBehaviourPun, IPunObservable
             GetComponentInChildren<Renderer>().material = _enemyMaterial;
         }
 
+        _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>(); 
         _life = _maxLife;
-        GetComponentInChildren<Renderer>().material = _enemyMaterial;
+        GetComponentInChildren<Renderer>().material = _myMaterial;
+        _mainCamera = Camera.main;
     }
 
 
@@ -51,6 +67,15 @@ public class Player : MonoBehaviourPun, IPunObservable
 
         //Third Person Movement
 
+        //_input.x = Input.GetAxis("Horizontal");
+        //_input.y = Input.GetAxis("Vertical");
+       
+        //_animator.SetFloat("FloatX", _input.x);
+        //_animator.SetFloat("FloatY", _input.y);
+
+        float YCamera = _mainCamera.transform.rotation.eulerAngles.y;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, YCamera + _cameraTurnOffset, 0), turnSpeed * Time.deltaTime);
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             photonView.RPC("RPC_Shoot", RpcTarget.All); 
@@ -59,6 +84,12 @@ public class Player : MonoBehaviourPun, IPunObservable
         if(Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            //SwitchCameras();
+            TakeDamage(20);
         }
     }
 
@@ -74,6 +105,21 @@ public class Player : MonoBehaviourPun, IPunObservable
     {
         _rb.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
     }
+
+    private void SwitchCameras()
+    {
+        if(_myThirdPersonCamera.activeInHierarchy)
+        {
+            _myThirdPersonCamera.SetActive(false);
+            _myAimingCamera.SetActive(true);
+        }
+        else
+        {
+            _myThirdPersonCamera.SetActive(true);
+            _myAimingCamera.SetActive(false);
+        }
+    }
+
     public void TakeDamage(float dmg)
     {
         if(photonView.IsMine)
@@ -114,7 +160,8 @@ public class Player : MonoBehaviourPun, IPunObservable
     {
         Instantiate(_myProjectile, _projectileSpawner.position, Quaternion.identity)
         .SetOwner(this)
-        .SetMaterialColor(GetComponent<Renderer>().material.color);
+        .SetMaterial(_myMaterial)
+        .SetDmg(_dmg);
     }
 
     [PunRPC]
