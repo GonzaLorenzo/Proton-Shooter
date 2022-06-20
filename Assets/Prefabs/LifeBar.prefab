@@ -215,7 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lifeBar: {fileID: 2088829964222990651}
   _target: {fileID: 0}
-  _verticalOffset: 1
+  _verticalOffset: 2.5
 --- !u!1 &8729669093673476633
 GameObject:
   m_ObjectHideFlags: 0

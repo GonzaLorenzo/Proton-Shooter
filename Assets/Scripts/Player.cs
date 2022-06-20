@@ -7,6 +7,7 @@ using Photon.Realtime;
 
 public class Player : MonoBehaviourPun, IPunObservable
 {
+    private bool _canShoot;
     private Vector2 _input;
     private Animator _animator;
     [SerializeField]
@@ -21,6 +22,8 @@ public class Player : MonoBehaviourPun, IPunObservable
     private float _maxLife;
     [SerializeField]
     private float _speed;
+    [SerializeField]
+    private float maxVelocityChange;
     [SerializeField]
     private float _jumpForce;
     [SerializeField]
@@ -52,7 +55,7 @@ public class Player : MonoBehaviourPun, IPunObservable
         {
             GetComponentInChildren<Renderer>().material = _enemyMaterial;
         }
-
+        _canShoot = false;
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>(); 
         _life = _maxLife;
@@ -67,18 +70,24 @@ public class Player : MonoBehaviourPun, IPunObservable
 
         //Third Person Movement
 
-        //_input.x = Input.GetAxis("Horizontal");
-        //_input.y = Input.GetAxis("Vertical");
+        _input.x = Input.GetAxis("Horizontal");
+        _input.y = Input.GetAxis("Vertical");
        
-        //_animator.SetFloat("FloatX", _input.x);
-        //_animator.SetFloat("FloatY", _input.y);
+       
+        _animator.SetFloat("FloatX", _input.x);
+        _animator.SetFloat("FloatY", _input.y);
 
-        float YCamera = _mainCamera.transform.rotation.eulerAngles.y;
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, YCamera + _cameraTurnOffset, 0), turnSpeed * Time.deltaTime);
+        //float YCamera = _mainCamera.transform.rotation.eulerAngles.y;
+        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, YCamera + _cameraTurnOffset, 0), turnSpeed * Time.deltaTime);
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && _canShoot)
         {
             photonView.RPC("RPC_Shoot", RpcTarget.All); 
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            SwitchCameras();
         }
 
         if(Input.GetKeyDown(KeyCode.Space))
@@ -97,8 +106,24 @@ public class Player : MonoBehaviourPun, IPunObservable
     {
         if(!photonView.IsMine) return;
         {
-            //Third Person Movement.
+            Walk();
         }
+    }
+
+    private void Walk()
+    {
+        Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+
+        input = transform.TransformDirection(input) * _speed;
+
+        Vector3 velocity = _rb.velocity;
+        Vector3 deltaVelocity = (input - velocity);
+        deltaVelocity.x = Mathf.Clamp(deltaVelocity.x, -maxVelocityChange, maxVelocityChange);
+        deltaVelocity.z = Mathf.Clamp(deltaVelocity.z, -maxVelocityChange, maxVelocityChange);
+        deltaVelocity.y = 0f;
+
+        _rb.AddForce(deltaVelocity, ForceMode.VelocityChange);
+
     }
 
     private void Jump()
@@ -106,17 +131,20 @@ public class Player : MonoBehaviourPun, IPunObservable
         _rb.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
     }
 
+
     private void SwitchCameras()
     {
         if(_myThirdPersonCamera.activeInHierarchy)
         {
             _myThirdPersonCamera.SetActive(false);
             _myAimingCamera.SetActive(true);
+            _canShoot = true;
         }
         else
         {
             _myThirdPersonCamera.SetActive(true);
             _myAimingCamera.SetActive(false);
+            _canShoot = false;
         }
     }
 
@@ -154,6 +182,7 @@ public class Player : MonoBehaviourPun, IPunObservable
         //OnDestroy();
         onDestroy();
     }
+
     #region RPCs
     [PunRPC]
     void RPC_Shoot()

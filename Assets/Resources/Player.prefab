@@ -572,7 +572,8 @@ MonoBehaviour:
   turnSpeed: 15
   _cameraTurnOffset: 10
   _maxLife: 100
-  _speed: 3
+  _speed: 5
+  maxVelocityChange: 20
   _jumpForce: 3
   _dmg: 20
   _myProjectile: {fileID: 6761171716965728683, guid: 24e993cff865a7644a285f4fc2f42fa4, type: 3}
