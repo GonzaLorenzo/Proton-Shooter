@@ -49,6 +49,7 @@ public class Player : MonoBehaviourPun, IPunObservable
     [SerializeField]
     private Transform debugTransform;
     private Vector3 _mouseWorldPosition;
+    private bool _isIdle = true;
 
     public event Action<float> onLifeBarUpdate = delegate { };
     public event Action onDestroy = delegate { };
@@ -87,11 +88,12 @@ public class Player : MonoBehaviourPun, IPunObservable
 
         //Third Person Movement
 
-        _input.x = Input.GetAxis("Horizontal");
-        _input.y = Input.GetAxis("Vertical");
+
+        SetInputAnims();
+        SetIdle();
+        
        
-        _animator.SetFloat("FloatX", _input.x);
-        _animator.SetFloat("FloatY", _input.y);
+        
 
         float h = _horizontalSpeed * Input.GetAxis("Mouse X");
         //h = h + _cameraTurnOffset;
@@ -127,6 +129,29 @@ public class Player : MonoBehaviourPun, IPunObservable
         {
             Walk();
         }
+    }
+
+    private void SetIdle()
+    {
+        if (_input.x != 0 || _input.y != 0)
+        {
+            _isIdle = false;
+            _animator.SetBool("IsIdle", _isIdle);
+        }
+        else
+        {
+            _isIdle = true;
+            _animator.SetBool("IsIdle", _isIdle);
+        }
+    }
+
+    private void SetInputAnims()
+    {
+        _input.x = Input.GetAxis("Horizontal");
+        _input.y = Input.GetAxis("Vertical");
+
+        _animator.SetFloat("FloatX", _input.x);
+        _animator.SetFloat("FloatY", _input.y);
     }
 
     private void Walk()
