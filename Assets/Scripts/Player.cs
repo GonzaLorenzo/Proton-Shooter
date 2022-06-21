@@ -7,6 +7,8 @@ using Photon.Realtime;
 
 public class Player : MonoBehaviourPun, IPunObservable
 {
+    private float _horizontalSpeed = 2.0f;
+    private float _verticalSpeed = 2.0f;
     private bool _canShoot;
     private Vector2 _input;
     private Animator _animator;
@@ -42,6 +44,11 @@ public class Player : MonoBehaviourPun, IPunObservable
     private GameObject _myThirdPersonCamera;
     [SerializeField]
     private GameObject _myAimingCamera;
+    [SerializeField]
+    private LayerMask aimColliderLayerMask = new LayerMask();
+    [SerializeField]
+    private Transform debugTransform;
+    private Vector3 _mouseWorldPosition;
 
     public event Action<float> onLifeBarUpdate = delegate { };
     public event Action onDestroy = delegate { };
@@ -68,17 +75,29 @@ public class Player : MonoBehaviourPun, IPunObservable
     {
         if (!photonView.IsMine) return;
 
+        _mouseWorldPosition = Vector3.zero;
+
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
+        {
+            debugTransform.position = raycastHit.point;
+            _mouseWorldPosition = raycastHit.point;
+        }
+
         //Third Person Movement
 
         _input.x = Input.GetAxis("Horizontal");
         _input.y = Input.GetAxis("Vertical");
        
-       
         _animator.SetFloat("FloatX", _input.x);
         _animator.SetFloat("FloatY", _input.y);
 
-        //float YCamera = _mainCamera.transform.rotation.eulerAngles.y;
-        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, YCamera + _cameraTurnOffset, 0), turnSpeed * Time.deltaTime);
+        float h = _horizontalSpeed * Input.GetAxis("Mouse X");
+        //h = h + _cameraTurnOffset;
+        float v = _verticalSpeed * -Input.GetAxis("Mouse Y");
+        transform.Rotate(0, h, 0);
+        _myShoulder.transform.Rotate(v, 0, 0);
 
         if (Input.GetKeyDown(KeyCode.Mouse0) && _canShoot)
         {
@@ -187,9 +206,9 @@ public class Player : MonoBehaviourPun, IPunObservable
     [PunRPC]
     void RPC_Shoot()
     {
-        Instantiate(_myProjectile, _projectileSpawner.position, Quaternion.identity)
+        Vector3 aimDir = (_mouseWorldPosition - _projectileSpawner.position).normalized;
+        Instantiate(_myProjectile, _projectileSpawner.position, Quaternion.LookRotation(aimDir, Vector3.up))
         .SetOwner(this)
-        .SetMaterial(_myMaterial)
         .SetDmg(_dmg);
     }
 

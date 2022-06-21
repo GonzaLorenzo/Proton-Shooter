@@ -9,21 +9,21 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     private float _speed;
     private Player _owner;
+    private Rigidbody _rb;
 
-    void Update()
+    private void Awake()
     {
-        transform.position += transform.forward * _speed * Time.deltaTime;
+        _rb = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        _rb.velocity = transform.forward * _speed;
     }
 
     public Projectile SetDmg(float dmg)
     {
         _dmg = dmg;
-        return this;
-    }
-
-    public Projectile SetMaterial(Material newMaterial)
-    {
-        GetComponent<Renderer>().material = newMaterial;
         return this;
     }
 
@@ -39,6 +39,10 @@ public class Projectile : MonoBehaviour
         if(player && player != _owner)
         {
             player.TakeDamage(_dmg);
+            Destroy(gameObject);
+        }
+        else
+        {
             Destroy(gameObject);
         }
     }
