@@ -50,6 +50,12 @@ public class Player : MonoBehaviourPun, IPunObservable
     private Transform debugTransform;
     private Vector3 _mouseWorldPosition;
     private bool _isIdle = true;
+    private bool _canWalk = true;
+    private bool _isDead = false;
+    private bool _canAim = true;
+    private int _totalLifes = 3;
+    private Vector3 _mySpawnPos;
+    private bool _isAlive = true;
 
     public event Action<float> onLifeBarUpdate = delegate { };
     public event Action onDestroy = delegate { };
@@ -61,13 +67,15 @@ public class Player : MonoBehaviourPun, IPunObservable
 
         if (!photonView.IsMine)
         {
-            GetComponentInChildren<Renderer>().material = _enemyMaterial;
+            //APLICARLE EL MATERIAL ENEMIGO EN CADA CHILD.
+            //GetComponentInChildren<Renderer>().material = _enemyMaterial;
         }
         _canShoot = false;
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>(); 
         _life = _maxLife;
-        GetComponentInChildren<Renderer>().material = _myMaterial;
+        _mySpawnPos = transform.position;
+        //GetComponentInChildren<Renderer>().material = _myMaterial;
         _mainCamera = Camera.main;
     }
 
@@ -88,13 +96,9 @@ public class Player : MonoBehaviourPun, IPunObservable
 
         //Third Person Movement
 
-
         SetInputAnims();
         SetIdle();
-        
        
-        
-
         float h = _horizontalSpeed * Input.GetAxis("Mouse X");
         //h = h + _cameraTurnOffset;
         float v = _verticalSpeed * -Input.GetAxis("Mouse Y");
@@ -106,7 +110,7 @@ public class Player : MonoBehaviourPun, IPunObservable
             photonView.RPC("RPC_Shoot", RpcTarget.All); 
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKeyDown(KeyCode.Mouse1) && _canAim)
         {
             SwitchCameras();
         }
@@ -127,8 +131,20 @@ public class Player : MonoBehaviourPun, IPunObservable
     {
         if(!photonView.IsMine) return;
         {
+            if (_canWalk)
             Walk();
         }
+    }
+
+    private void ResetValues()
+    {
+        _life = _maxLife;
+        _canWalk = true;
+        _isDead = false;
+        _animator.SetBool("IsDead", _isDead);
+        _canAim = true;
+        _isAlive = true;
+        _animator.SetBool("IsAlive", _isAlive);
     }
 
     private void SetIdle()
@@ -175,6 +191,20 @@ public class Player : MonoBehaviourPun, IPunObservable
         _rb.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
     }
 
+    public void Respawn()
+    {
+        if (_totalLifes != 0)
+        {
+            ResetValues();
+            //_animator.Play("Idle_Shoot_Ar 0");  
+            transform.position = _mySpawnPos;
+            _totalLifes--;
+        }
+        else
+        {
+            Debug.Log("Perdiste Charles");
+        }
+    }
 
     private void SwitchCameras()
     {
@@ -243,6 +273,12 @@ public class Player : MonoBehaviourPun, IPunObservable
         //Cambiar color de children a material de soldado negro.
 
         //Si hay respawn, lo hace solo el original y se le reinician los valores con un void ResetValues().
+        _isDead = true;
+        _canWalk = false;
+        _isAlive = false;
+        _animator.SetBool("IsAlive", _isAlive);
+        _canAim = false;
+        _animator.SetBool("IsDead", _isDead);
     }
     #endregion
 }
