@@ -9,7 +9,7 @@ public class Player : MonoBehaviourPun, IPunObservable
 {
     private float _horizontalSpeed = 2.0f;
     private float _verticalSpeed = 2.0f;
-    private bool _canShoot;
+    private bool _canShoot = true;
     private Vector2 _input;
     private Animator _animator;
     [SerializeField]
@@ -101,8 +101,6 @@ public class Player : MonoBehaviourPun, IPunObservable
             _mouseWorldPosition = raycastHit.point;
         }
 
-        //Third Person Movement
-
         SetInputAnims();
         SetIdle();
        
@@ -129,7 +127,6 @@ public class Player : MonoBehaviourPun, IPunObservable
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            //SwitchCameras();
             TakeDamage(20);
         }
     }
@@ -151,6 +148,7 @@ public class Player : MonoBehaviourPun, IPunObservable
         _animator.SetBool("IsDead", _isDead);
         _canAim = true;
         _isAlive = true;
+        _canShoot = true;
         _animator.SetBool("IsAlive", _isAlive);
     }
 
@@ -209,7 +207,7 @@ public class Player : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            Debug.Log("Perdiste Charles");
+            //LoseScreen
         }
     }
 
@@ -282,6 +280,7 @@ public class Player : MonoBehaviourPun, IPunObservable
         //Si hay respawn, lo hace solo el original y se le reinician los valores con un void ResetValues().
         _isDead = true;
         _canWalk = false;
+        _canShoot = false;
         _isAlive = false;
         _animator.SetBool("IsAlive", _isAlive);
         _canAim = false;
