@@ -28,7 +28,7 @@ public class LobbyUI : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("GameLevel");
+        PhotonNetwork.LoadLevel("Test_Map");
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
