@@ -42,6 +42,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 3439885032117248000}
     m_Modifications:
     - target: {fileID: 5013784141984525225, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: _myMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 9d4df993be894774282a0b17d51a0723, type: 2}
+    - target: {fileID: 5013784141984525225, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: _enemyMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: af5328f7e22d71d4389815b015a63b3a, type: 2}
+    - target: {fileID: 5013784141984525225, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: debugTransform
       value: 
       objectReference: {fileID: 2163691252210218608}

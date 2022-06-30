@@ -49,14 +49,14 @@ public class Player : MonoBehaviourPun, IPunObservable
     [SerializeField]
     private Transform debugTransform;
     private Vector3 _mouseWorldPosition;
+    private Vector3 _mySpawnPos;
     private bool _isIdle = true;
     private bool _canWalk = true;
     private bool _isDead = false;
     private bool _canAim = true;
-    private int _totalLifes = 3;
-    private Vector3 _mySpawnPos;
+    private int _totalLifes = 3;    
     private bool _isAlive = true;
-
+    private Renderer[] _myChildrenRenderers;
     public event Action<float> onLifeBarUpdate = delegate { };
     public event Action onDestroy = delegate { };
 
@@ -64,12 +64,19 @@ public class Player : MonoBehaviourPun, IPunObservable
     {
         LifeBarManager _lifeBarManager = FindObjectOfType<LifeBarManager>();
         _lifeBarManager?.SpawnLifeBar(this);
+        _myChildrenRenderers = GetComponentsInChildren<Renderer>();
 
         if (!photonView.IsMine)
         {
             //APLICARLE EL MATERIAL ENEMIGO EN CADA CHILD.
             //GetComponentInChildren<Renderer>().material = _enemyMaterial;
-        }
+            foreach(Renderer r in _myChildrenRenderers)
+            {
+                r.material = _enemyMaterial;
+            }
+
+        }   
+           
         _canShoot = false;
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>(); 
