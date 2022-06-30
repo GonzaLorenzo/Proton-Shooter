@@ -267,6 +267,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7020552098500452898, guid: 35f3c5545fd84044588db4a76813bb28, type: 3}
+      propertyPath: Damping.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020552098500452898, guid: 35f3c5545fd84044588db4a76813bb28, type: 3}
+      propertyPath: Damping.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020552098500452898, guid: 35f3c5545fd84044588db4a76813bb28, type: 3}
+      propertyPath: Damping.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020552098500452898, guid: 35f3c5545fd84044588db4a76813bb28, type: 3}
       propertyPath: VerticalArmLength
       value: 0.6
       objectReference: {fileID: 0}
