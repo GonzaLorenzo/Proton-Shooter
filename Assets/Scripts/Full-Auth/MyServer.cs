@@ -122,7 +122,7 @@ public class MyServer : MonoBehaviourPun
     }
 
     [PunRPC]
-    void RPC_Shoot(Player playerRequest, Vector3 dir)
+    void RPC_Shoot(Player playerRequest)
     {
         if (_dictModels.ContainsKey(playerRequest))
         {
