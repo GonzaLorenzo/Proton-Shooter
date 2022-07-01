@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
+using Photon.Realtime;
 public class Projectile : MonoBehaviour
 {
     [SerializeField]
-    private float _dmg;
+    private float _dmg = 20;
     [SerializeField]
     private float _speed;
     private Player _owner;
@@ -33,20 +34,29 @@ public class Projectile : MonoBehaviour
         return this;
     }
 
+    public Projectile SetForward(Vector3 aimDir)
+    {
+        transform.rotation = Quaternion.LookRotation(aimDir, Vector3.up);
+        return this;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         var player = other.GetComponent<Player>();
         if(player && player != _owner)
         {
-            player.TakeDamage(_dmg);
+            player.TakeDamage(_dmg);      
             Destroy(gameObject);
+            //PhotonNetwork.Destroy(gameObject);
+            //_owner.OwnerDestroy(this.gameObject);
         }
         else
         {
+            
             Destroy(gameObject);
+            //PhotonNetwork.Destroy(gameObject);
+            //_owner.OwnerDestroy(this.gameObject);
         }
     }
-
-
 
 }

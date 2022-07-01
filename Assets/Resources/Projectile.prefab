@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6761171716965728683}
   - component: {fileID: -2894080465137162135}
   - component: {fileID: -3998512179980148890}
-  - component: {fileID: 6157547234335536338}
+  - component: {fileID: 7868771794698529718}
   m_Layer: 6
   m_Name: Projectile
   m_TagString: Untagged
@@ -147,7 +147,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 1
+  Synchronization: 2
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
@@ -155,7 +155,7 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!65 &6157547234335536338
+--- !u!65 &7868771794698529718
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -50,6 +50,7 @@ public class Player : MonoBehaviourPun, IPunObservable
     private Transform debugTransform;
     private Vector3 _mouseWorldPosition;
     private Vector3 _mySpawnPos;
+    private Vector3 aimDir;
     private bool _isIdle = true;
     private bool _canWalk = true;
     private bool _isDead = false;
@@ -84,6 +85,7 @@ public class Player : MonoBehaviourPun, IPunObservable
         _mySpawnPos = transform.position;
         //GetComponentInChildren<Renderer>().material = _myMaterial;
         _mainCamera = Camera.main;
+        
     }
 
 
@@ -97,8 +99,9 @@ public class Player : MonoBehaviourPun, IPunObservable
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
         {
-            debugTransform.position = raycastHit.point;
+            //debugTransform.position = raycastHit.point;
             _mouseWorldPosition = raycastHit.point;
+            aimDir = (_mouseWorldPosition - _projectileSpawner.position).normalized;
         }
 
         SetInputAnims();
@@ -112,7 +115,9 @@ public class Player : MonoBehaviourPun, IPunObservable
 
         if (Input.GetKeyDown(KeyCode.Mouse0) && _canShoot)
         {
-            photonView.RPC("RPC_Shoot", RpcTarget.All); 
+            //photonView.RPC("RPC_Shoot", RpcTarget.All);
+            PhotonNetwork.Instantiate(_myProjectile.name, _projectileSpawner.position, Quaternion.LookRotation(aimDir, Vector3.up));
+            
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1) && _canAim)
@@ -143,6 +148,7 @@ public class Player : MonoBehaviourPun, IPunObservable
     private void ResetValues()
     {
         _life = _maxLife;
+        onLifeBarUpdate(_life);
         _canWalk = true;
         _isDead = false;
         _animator.SetBool("IsDead", _isDead);
@@ -242,6 +248,11 @@ public class Player : MonoBehaviourPun, IPunObservable
         }
     }
 
+    public void OwnerDestroy(GameObject projectile)
+    {
+        Destroy(projectile);
+    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if(stream.IsWriting)
@@ -266,10 +277,10 @@ public class Player : MonoBehaviourPun, IPunObservable
     [PunRPC]
     void RPC_Shoot()
     {
-        Vector3 aimDir = (_mouseWorldPosition - _projectileSpawner.position).normalized;
-        Instantiate(_myProjectile, _projectileSpawner.position, Quaternion.LookRotation(aimDir, Vector3.up))
+        Instantiate(_myProjectile, _projectileSpawner.position, Quaternion.identity)
         .SetOwner(this)
-        .SetDmg(_dmg);
+        .SetDmg(_dmg)
+        .SetForward(aimDir);
     }
 
     [PunRPC]

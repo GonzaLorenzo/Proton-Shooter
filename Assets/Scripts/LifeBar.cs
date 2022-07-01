@@ -12,7 +12,7 @@ public class LifeBar : MonoBehaviour
     private Player _target;
 
     [SerializeField]
-    private float _verticalOffset = 500;
+    private float _verticalOffset = 0; //500
 
     public LifeBar SetTarget(Player target)
     {
