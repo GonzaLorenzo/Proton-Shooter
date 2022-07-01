@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviourPun
     void Update()
     {
         txtCount.text = playersConected.Count.ToString();
-        if (playersConected.Count < 1)
+        if (playersConected.Count < 2)
         {
             txtCount.fontSize = 20;
             txtCount.text = "Se debe conectar al menos dos jugadores. Para comenzar el juego.";
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviourPun
         {
             txtCount.text = "Comienzo del juego";
             txtCount.fontSize = 20;
+            startGame = true;
             StartCoroutine(StartGame());
         }
     }
