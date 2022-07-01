@@ -40,18 +40,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3439885032117248000}
     m_Modifications:
+    - target: {fileID: 3730920990433440665, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: m_SynchronizeAngularVelocity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4546953243054201071, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 5013784141984525225, guid: c98043d57e0190845b790d7b92990bee, type: 3}
-      propertyPath: _myMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: 9d4df993be894774282a0b17d51a0723, type: 2}
-    - target: {fileID: 5013784141984525225, guid: c98043d57e0190845b790d7b92990bee, type: 3}
-      propertyPath: _enemyMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: af5328f7e22d71d4389815b015a63b3a, type: 2}
     - target: {fileID: 5013784141984525225, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: debugTransform
       value: 
@@ -415,57 +411,30 @@ PrefabInstance:
     - target: {fileID: 9206859410140123273, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: ObservedComponents.Array.data[3]
       value: 
-      objectReference: {fileID: 6183713086534026004}
+      objectReference: {fileID: 2945363779594492719}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c98043d57e0190845b790d7b92990bee, type: 3}
---- !u!1 &5997796632190983657 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7673487251499248760, guid: c98043d57e0190845b790d7b92990bee, type: 3}
-  m_PrefabInstance: {fileID: 4125798351278895505}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5997796632190550473 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7673487251499544664, guid: c98043d57e0190845b790d7b92990bee, type: 3}
   m_PrefabInstance: {fileID: 4125798351278895505}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2945363779594492719 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1270524706475666110, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+  m_PrefabInstance: {fileID: 4125798351278895505}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &508762278963247694 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4489731647572675551, guid: c98043d57e0190845b790d7b92990bee, type: 3}
   m_PrefabInstance: {fileID: 4125798351278895505}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6183713086534026004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5997796632190983657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PositionModel:
-    SynchronizeEnabled: 0
-    TeleportEnabled: 1
-    TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 2
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 1
-    ExtrapolateOption: 0
-    ExtrapolateSpeed: 1
-    ExtrapolateIncludingRoundTripTime: 1
-    ExtrapolateNumberOfStoredPositions: 1
-  m_RotationModel:
-    SynchronizeEnabled: 1
-    InterpolateOption: 1
-    InterpolateRotateTowardsSpeed: 180
-    InterpolateLerpSpeed: 5
-  m_ScaleModel:
-    SynchronizeEnabled: 0
-    InterpolateOption: 0
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 0
 --- !u!1001 &7301610138106521824
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -639,6 +608,10 @@ PrefabInstance:
     - target: {fileID: 8936501122619898159, guid: 94a4e564506b3974a916f9e85cb31cbc, type: 3}
       propertyPath: m_Name
       value: Player Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 8936501122619898159, guid: 94a4e564506b3974a916f9e85cb31cbc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8936501120946879446, guid: 94a4e564506b3974a916f9e85cb31cbc, type: 3}

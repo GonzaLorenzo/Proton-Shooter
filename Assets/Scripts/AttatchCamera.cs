@@ -10,7 +10,7 @@ public class AttatchCamera : MonoBehaviour
     private void Awake()
     {
         _myCam = GetComponent<CinemachineVirtualCamera>();
-        _myCam.Follow = GameObject.Find("Player(Clone)").transform;
+        //_myCam.Follow = GameObject.Find("Player(Clone)").transform;
     }
 
     public AttatchCamera SetOwner(Transform owner)

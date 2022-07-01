@@ -15,6 +15,7 @@ public class Player : MonoBehaviourPun, IPunObservable
     [SerializeField]
     private float _life;
     private Camera _mainCamera;
+    private GameManager gameManager;
     private Rigidbody _rb;
     [SerializeField]
     private float turnSpeed = 15f;
@@ -55,7 +56,7 @@ public class Player : MonoBehaviourPun, IPunObservable
     private bool _canWalk = true;
     private bool _isDead = false;
     private bool _canAim = true;
-    private int _totalLifes = 3;    
+    private int _totalLifes = 3;
     private bool _isAlive = true;
     private Renderer[] _myChildrenRenderers;
     public event Action<float> onLifeBarUpdate = delegate { };
@@ -67,25 +68,36 @@ public class Player : MonoBehaviourPun, IPunObservable
         _lifeBarManager?.SpawnLifeBar(this);
         _myChildrenRenderers = GetComponentsInChildren<Renderer>();
 
+
         if (!photonView.IsMine)
         {
             //APLICARLE EL MATERIAL ENEMIGO EN CADA CHILD.
             //GetComponentInChildren<Renderer>().material = _enemyMaterial;
-            foreach(Renderer r in _myChildrenRenderers)
+            foreach (Renderer r in _myChildrenRenderers)
             {
                 r.material = _enemyMaterial;
             }
 
-        }   
-           
+        }
+
         _canShoot = false;
         _animator = GetComponent<Animator>();
-        _rb = GetComponent<Rigidbody>(); 
+        _rb = GetComponent<Rigidbody>();
         _life = _maxLife;
         _mySpawnPos = transform.position;
         //GetComponentInChildren<Renderer>().material = _myMaterial;
-        _mainCamera = Camera.main;
-        
+
+        if (photonView.IsMine)
+            _mainCamera = Camera.main;
+        else
+            _myThirdPersonCamera.SetActive(false);
+
+        gameManager = FindObjectOfType<GameManager>();
+        gameManager.playersConected.Add(this);
+
+        if (!photonView.IsMine) return;
+        this.gameObject.name = "PlayerOwner";
+
     }
 
 
@@ -106,7 +118,7 @@ public class Player : MonoBehaviourPun, IPunObservable
 
         SetInputAnims();
         SetIdle();
-       
+
         float h = _horizontalSpeed * Input.GetAxis("Mouse X");
         //h = h + _cameraTurnOffset;
         float v = _verticalSpeed * -Input.GetAxis("Mouse Y");
@@ -125,7 +137,7 @@ public class Player : MonoBehaviourPun, IPunObservable
             SwitchCameras();
         }
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
         }
@@ -138,10 +150,10 @@ public class Player : MonoBehaviourPun, IPunObservable
 
     private void FixedUpdate()
     {
-        if(!photonView.IsMine) return;
+        if (!photonView.IsMine) return;
         {
             if (_canWalk)
-            Walk();
+                Walk();
         }
     }
 
@@ -219,7 +231,7 @@ public class Player : MonoBehaviourPun, IPunObservable
 
     private void SwitchCameras()
     {
-        if(_myThirdPersonCamera.activeInHierarchy)
+        if (_myThirdPersonCamera.activeInHierarchy)
         {
             _myThirdPersonCamera.SetActive(false);
             _myAimingCamera.SetActive(true);
@@ -235,13 +247,13 @@ public class Player : MonoBehaviourPun, IPunObservable
 
     public void TakeDamage(float dmg)
     {
-        if(photonView.IsMine)
+        if (photonView.IsMine)
         {
             _life -= dmg;
 
             onLifeBarUpdate(_life);
 
-            if(_life <= 0)
+            if (_life <= 0)
             {
                 photonView.RPC("RPC_Die", RpcTarget.All);
             }
@@ -255,7 +267,7 @@ public class Player : MonoBehaviourPun, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if(stream.IsWriting)
+        if (stream.IsWriting)
         {
             stream.SendNext(_life);
         }
