@@ -5,7 +5,7 @@ using System;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class Player : MonoBehaviourPun, IPunObservable
+public class NonPlayer : MonoBehaviourPun, IPunObservable
 {
     private float _horizontalSpeed = 2.0f;
     private float _verticalSpeed = 2.0f;

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviourPun
 {
-    public List<Player> playersConected;
+    public List<NonPlayer> playersConected;
     public TMP_Text txtCount;
     public GameObject door;
     public bool startGame;

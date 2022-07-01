@@ -10,7 +10,7 @@ public class LifeBarManager : MonoBehaviour
 
     public event Action updateBars = delegate { };
 
-    public void SpawnLifeBar(Player target)
+    public void SpawnLifeBar(NonPlayer target)
     {
         LifeBar lifeBar = Instantiate(_lifeBarPrefab, target.transform.position, Quaternion.identity)
         .SetParent(transform)

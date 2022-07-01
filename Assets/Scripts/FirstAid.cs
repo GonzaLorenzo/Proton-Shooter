@@ -8,7 +8,7 @@ public class FirstAid : MonoBehaviour
     private int _healValue;
     void OnTriggerEnter(Collider other)
     {
-        var player = other.GetComponent<Player>();
+        var player = other.GetComponent<NonPlayer>();
         if(player)
         {
             player.TakeDamage(-_healValue);

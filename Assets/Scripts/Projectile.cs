@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
     private float _dmg = 20;
     [SerializeField]
     private float _speed;
-    private Player _owner;
+    private NonPlayer _owner;
     private Rigidbody _rb;
 
     private void Awake()
@@ -28,7 +28,7 @@ public class Projectile : MonoBehaviour
         return this;
     }
 
-    public Projectile SetOwner(Player owner)
+    public Projectile SetOwner(NonPlayer owner)
     {
         _owner = owner;
         return this;
@@ -42,7 +42,7 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var player = other.GetComponent<Player>();
+        var player = other.GetComponent<NonPlayer>();
         if(player && player != _owner)
         {
             player.TakeDamage(_dmg);      

@@ -9,12 +9,12 @@ public class LifeBar : MonoBehaviour
     private Slider _lifeBar;
 
     [SerializeField]
-    private Player _target;
+    private NonPlayer _target;
 
     [SerializeField]
     private float _verticalOffset = 0; //500
 
-    public LifeBar SetTarget(Player target)
+    public LifeBar SetTarget(NonPlayer target)
     {
         _target = target;
         _target.onLifeBarUpdate += UpdateBar;
