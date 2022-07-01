@@ -49,6 +49,14 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5013784141984525225, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: _uiWin
+      value: 
+      objectReference: {fileID: 7741481355695882458, guid: c3e015d10299a9a4a844e0721e32cc0e, type: 3}
+    - target: {fileID: 5013784141984525225, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: _uiLose
+      value: 
+      objectReference: {fileID: 7741481355695882458, guid: c198c882f03661f4f8dcc8d359024edc, type: 3}
+    - target: {fileID: 5013784141984525225, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: debugTransform
       value: 
       objectReference: {fileID: 0}

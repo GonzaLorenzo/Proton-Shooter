@@ -13,6 +13,10 @@ public class Player : MonoBehaviourPun, IPunObservable
     private Vector2 _input;
     private Animator _animator;
     [SerializeField]
+    private GameObject _uiLose;
+    [SerializeField]
+    private GameObject _uiWin;
+    [SerializeField]
     private float _life;
     private Camera _mainCamera;
     private GameManager gameManager;
@@ -225,8 +229,18 @@ public class Player : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            //LoseScreen
+            LoseScreen();
         }
+    }
+
+    private void LoseScreen()
+    {
+        if(!photonView.IsMine)
+        {
+            Instantiate(_uiWin);
+            return;
+        }
+        Instantiate(_uiLose);
     }
 
     private void SwitchCameras()
