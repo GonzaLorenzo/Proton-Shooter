@@ -39,4 +39,10 @@ public class ControllerFA : MonoBehaviourPun
         }
 
     }
+
+    private void OnApplicationQuit()
+    {
+        MyServer.instance.RequestDisconnection(_localPlayer);
+        PhotonNetwork.Disconnect();
+    }
 }

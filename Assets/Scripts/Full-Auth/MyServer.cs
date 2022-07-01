@@ -86,6 +86,12 @@ public class MyServer : MonoBehaviourPun
         photonView.RPC("RPC_Jump", _server, player);
     }
 
+    public void RequestDisconnection(Player player)
+    {
+        photonView.RPC("RPC_Disconnect", _server, player);
+        PhotonNetwork.SendAllOutgoingCommands();
+    }
+
     #endregion
 
     #region RPCs
@@ -125,6 +131,14 @@ public class MyServer : MonoBehaviourPun
             _dictModels[playerRequest].Move(dir);
         }
     }
+
+    [PunRPC]
+    void RPC_Disconnect(Player player)
+    {
+        PhotonNetwork.Destroy(_dictModels[player].gameObject);
+        _dictModels.Remove(player);
+    }
+
 
     [PunRPC]
     void RPC_Shoot(Player playerRequest)

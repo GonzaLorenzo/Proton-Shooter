@@ -47,7 +47,7 @@ public class CharacterFA : MonoBehaviourPun
                      .SetMaterial(_myMat, _owner);
     }   
 
-    public void Jump(Vector3 dir)
+    public void Jump()
     {
         _rb.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
     }        
@@ -76,10 +76,6 @@ public class CharacterFA : MonoBehaviourPun
 
         photonView.RPC("RPC_SetLocalParameters", _owner, _currentLife);
         return this;
-    }
-    private void OnApplicationQuit()
-    {
-        //if (_owner)
     }
 
     #region RPCs
