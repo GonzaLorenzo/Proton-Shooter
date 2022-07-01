@@ -43,6 +43,8 @@ MonoBehaviour:
   - RPC_Die
   - RPC_MakeDamage
   - Start_Game
+  - RPC_DestroyThisGO
+  - RPC_DestroyThisLight
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
