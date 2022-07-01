@@ -9,36 +9,41 @@ public class CharacterFA : MonoBehaviourPun
     Rigidbody _rb;
 
     [SerializeField]
+    private ProjectileFA _myProjectile;
+    [SerializeField]
+    private Transform _projectileSpawn;
+
+    [SerializeField]
     float _maxLife;
     float _currentLife;
     [SerializeField]
     float _speed;
     [SerializeField]
     float _dmg;
-    Material _myMaterial;
+    private Renderer[] _myChildrenRenderers;
+    private Material _myMat;
     [SerializeField]
     Material _playerMaterial;
     void Awake()
     {
-        _myMaterial = GetComponent<Renderer>().material;
+        LifeBarManager _lifeBarManager = FindObjectOfType<LifeBarManager>();
+        //_myMat = GetComponent<Renderer>().material;
         //_myMaterial.color = Color.red; TEST
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void Move(Vector3 dir)
     {
         _rb.MovePosition(_rb.position + dir * _speed * Time.fixedDeltaTime);
     }
+
+    public void Shoot()
+    {
+        PhotonNetwork.Instantiate(_myProjectile.name, _projectileSpawn.position, transform.rotation)
+                     .GetComponent<ProjectileFA>()
+                     .SetOwner(this)
+                     .SetDmg(_dmg)
+                     .SetMaterial(_myMat, _owner);
+    }           
 
     public void TakeDamage(float dmg)
     {
@@ -51,7 +56,7 @@ public class CharacterFA : MonoBehaviourPun
         }
         else
         {
-
+            photonView.RPC("RPC_LifeChange", _owner, _currentLife);
         }
     }
 
@@ -69,11 +74,17 @@ public class CharacterFA : MonoBehaviourPun
     #region RPCs
 
     [PunRPC]
+    void RPC_LifeChange(float currentLife)
+    {
+        _currentLife = currentLife;
+    }
+
+    [PunRPC]
     void RPC_SetLocalParameters(float life)
     {
         _currentLife = _maxLife = life;
 
-        _myMaterial = _playerMaterial;
+        //_myChildrenMaterial = _playerMaterial;
     }
 
     [PunRPC]

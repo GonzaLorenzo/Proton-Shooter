@@ -6,8 +6,8 @@ using Photon.Realtime;
 
 public class LauncherFullAuth : MonoBehaviourPunCallbacks
 {
-    //public MyServer serverPrefab;
-    //public ControllerFA controllerPrefab;
+    public MyServer serverPrefab;
+    public ControllerFA controllerPrefab;
 
     public void BTN_Connect()
     {
@@ -24,14 +24,14 @@ public class LauncherFullAuth : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
-        //PhotonNetwork.Instantiate(serverPrefab, Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate(serverPrefab.name, Vector3.zero, Quaternion.identity);
     }
 
     public override void OnJoinedRoom()
     {
         if(!PhotonNetwork.IsMasterClient)
         {
-            //Instantiate(controllerPrefab);
+            Instantiate(controllerPrefab);
         }
     }
 

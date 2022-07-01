@@ -20,7 +20,7 @@ public class ControllerFA : MonoBehaviourPun
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            
+            MyServer.instance.RequestShoot(_localPlayer);
         }
     }
 

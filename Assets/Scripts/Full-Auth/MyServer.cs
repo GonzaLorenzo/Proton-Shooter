@@ -10,6 +10,8 @@ public class MyServer : MonoBehaviourPun
     Player _server;
     [SerializeField]
     CharacterFA _characterPrefab;
+    [SerializeField]
+    private GameObject _playerPrefab;
     Dictionary<Player,CharacterFA> _dictModels = new Dictionary<Player, CharacterFA>();
     public int PackagePerSecond { get; private set; }
 
@@ -20,6 +22,7 @@ public class MyServer : MonoBehaviourPun
         {
             if(photonView.IsMine)
             {
+                Debug.Log("1");
                 photonView.RPC("RPC_SetServer", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer, 1);
             }
         }
@@ -53,7 +56,9 @@ public class MyServer : MonoBehaviourPun
         }
 
         //Hacer SpawnManager para instanciar a los jugadores y guardar posiciones.
-        CharacterFA newCharacter = PhotonNetwork.Instantiate(_characterPrefab.name, Vector3.zero, Quaternion.identity).GetComponent<CharacterFA>().SetInitialParameters(player);
+        //CharacterFA newCharacter = PhotonNetwork.Instantiate(_characterPrefab.name, Vector3.zero, Quaternion.identity).GetComponent<CharacterFA>().SetInitialParameters(player);
+        //CharacterFA newCharacter = PhotonNetwork.Instantiate(_playerPrefab.name, Vector3.zero, Quaternion.identity).GetComponent<CharacterFA>().SetInitialParameters(player);
+        CharacterFA newCharacter = PhotonNetwork.Instantiate(_playerPrefab.name, Vector3.zero, Quaternion.identity).transform.GetChild(0).GetComponent<CharacterFA>().SetInitialParameters(player);
 
         _dictModels.Add(player, newCharacter);
     }
@@ -68,7 +73,12 @@ public class MyServer : MonoBehaviourPun
 
     public void RequestMove(Player player, Vector3 dir)
     {
-        photonView.RPC("RPC_Move", _server, dir);
+        photonView.RPC("RPC_Move", _server, player, dir);
+    }
+
+    public void RequestShoot(Player player)
+    {
+        photonView.RPC("RPC_Shoot", _server, player);
     }
 
     #endregion
@@ -108,6 +118,15 @@ public class MyServer : MonoBehaviourPun
         if (_dictModels.ContainsKey(playerRequest))
         {
             _dictModels[playerRequest].Move(dir);
+        }
+    }
+
+    [PunRPC]
+    void RPC_Shoot(Player playerRequest, Vector3 dir)
+    {
+        if (_dictModels.ContainsKey(playerRequest))
+        {
+            _dictModels[playerRequest].Shoot();
         }
     }
 

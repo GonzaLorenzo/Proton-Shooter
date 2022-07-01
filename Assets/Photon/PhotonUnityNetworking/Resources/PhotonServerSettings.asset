@@ -43,6 +43,16 @@ MonoBehaviour:
   - RPC_Die
   - RPC_MakeDamage
   - Start_Game
+  - AddPlayer
+  - Move
+  - SetLocalParameters
+  - RPC_AddPlayer
+  - RPC_DisconnectOwner
+  - RPC_Move
+  - RPC_SetLocalParameters
+  - RPC_SetServer
+  - SetRPCMaterial
+  - RPC_LifeChange
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
