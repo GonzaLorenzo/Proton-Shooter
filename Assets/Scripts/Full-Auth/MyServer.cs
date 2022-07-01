@@ -81,6 +81,11 @@ public class MyServer : MonoBehaviourPun
         photonView.RPC("RPC_Shoot", _server, player);
     }
 
+    public void RequestJump(Player player)
+    {
+        photonView.RPC("RPC_Jump", _server, player);
+    }
+
     #endregion
 
     #region RPCs
@@ -127,6 +132,15 @@ public class MyServer : MonoBehaviourPun
         if (_dictModels.ContainsKey(playerRequest))
         {
             _dictModels[playerRequest].Shoot();
+        }
+    }
+
+    [PunRPC]
+    void RPC_Jump(Player playerRequest)
+    {
+        if (_dictModels.ContainsKey(playerRequest))
+        {
+            _dictModels[playerRequest].Jump();
         }
     }
 

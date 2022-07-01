@@ -18,9 +18,14 @@ public class ControllerFA : MonoBehaviourPun
     {
         _h = Input.GetAxis("Horizontal");
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Mouse0))
         {
             MyServer.instance.RequestShoot(_localPlayer);
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            MyServer.instance.RequestJump(_localPlayer);
         }
     }
 

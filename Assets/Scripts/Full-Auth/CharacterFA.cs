@@ -20,6 +20,8 @@ public class CharacterFA : MonoBehaviourPun
     float _speed;
     [SerializeField]
     float _dmg;
+    [SerializeField]
+    float _jumpForce;
     private Renderer[] _myChildrenRenderers;
     private Material _myMat;
     [SerializeField]
@@ -43,15 +45,20 @@ public class CharacterFA : MonoBehaviourPun
                      .SetOwner(this)
                      .SetDmg(_dmg)
                      .SetMaterial(_myMat, _owner);
-    }           
+    }   
+
+    public void Jump(Vector3 dir)
+    {
+        _rb.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
+    }        
 
     public void TakeDamage(float dmg)
     {
         _currentLife -= dmg;
         if(_currentLife <= 0)
         {
-            MyServer.instance.PlayerDisconnect(_owner); //Por ahora.
-            photonView.RPC("RPC_DisconnectOwner", _owner);
+            //MyServer.instance.PlayerDisconnect(_owner); //Por ahora.
+            //photonView.RPC("RPC_DisconnectOwner", _owner);
             //Animacion muerte, respawn y conteo de vidas.
         }
         else
@@ -69,6 +76,10 @@ public class CharacterFA : MonoBehaviourPun
 
         photonView.RPC("RPC_SetLocalParameters", _owner, _currentLife);
         return this;
+    }
+    private void OnApplicationQuit()
+    {
+        //if (_owner)
     }
 
     #region RPCs
