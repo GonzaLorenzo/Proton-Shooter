@@ -54,6 +54,7 @@ MonoBehaviour:
   - SetRPCMaterial
   - RPC_LifeChange
   - RPC_Jump
+  - RPC_Disconnect
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

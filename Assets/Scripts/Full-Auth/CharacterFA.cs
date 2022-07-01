@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-public class CharacterFA : MonoBehaviourPun
+public class CharacterFA : MonoBehaviourPun, IPunObservable
 {
     Player _owner;
     Rigidbody _rb;
@@ -26,11 +27,21 @@ public class CharacterFA : MonoBehaviourPun
     private Material _myMat;
     [SerializeField]
     Material _playerMaterial;
+
+    public event Action<float> onLifeBarUpdate = delegate { };
+    public event Action onDestroy = delegate { };
+
     void Awake()
     {
         LifeBarManager _lifeBarManager = FindObjectOfType<LifeBarManager>();
         //_myMat = GetComponent<Renderer>().material;
         //_myMaterial.color = Color.red; TEST
+    }
+
+    void Start()
+    {
+        CanvasLifeBar lifeBarManager = FindObjectOfType<CanvasLifeBar>();
+        lifeBarManager?.SpawnLifeBar(this);
     }
 
     public void Move(Vector3 dir)
@@ -55,15 +66,16 @@ public class CharacterFA : MonoBehaviourPun
     public void TakeDamage(float dmg)
     {
         _currentLife -= dmg;
+        onLifeBarUpdate(_currentLife);
         if(_currentLife <= 0)
         {
-            //MyServer.instance.PlayerDisconnect(_owner); //Por ahora.
-            //photonView.RPC("RPC_DisconnectOwner", _owner);
+            MyServer.instance.PlayerDisconnect(_owner); //Por ahora lo rajamos.
+            photonView.RPC("RPC_DisconnectOwner", _owner);
             //Animacion muerte, respawn y conteo de vidas.
         }
         else
         {
-            photonView.RPC("RPC_LifeChange", _owner, _currentLife);
+            //photonView.RPC("RPC_LifeChange", _owner, _currentLife);
         }
     }
 
@@ -78,6 +90,11 @@ public class CharacterFA : MonoBehaviourPun
         return this;
     }
 
+    void OnDestroy()
+    {
+        onDestroy();
+    }
+
     #region RPCs
 
     [PunRPC]
@@ -89,7 +106,8 @@ public class CharacterFA : MonoBehaviourPun
     [PunRPC]
     void RPC_SetLocalParameters(float life)
     {
-        _currentLife = _maxLife = life;
+        //_currentLife = _maxLife = life;
+
 
         //_myChildrenMaterial = _playerMaterial;
     }
@@ -101,4 +119,20 @@ public class CharacterFA : MonoBehaviourPun
     }
 
     #endregion
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if(stream.IsWriting)
+        {
+            stream.SendNext(_currentLife);
+            stream.SendNext(_maxLife);
+        }
+        else
+        {
+            _currentLife = (float)stream.ReceiveNext();
+            _maxLife = (float)stream.ReceiveNext();
+
+            onLifeBarUpdate(_currentLife);
+        }
+    }
 }

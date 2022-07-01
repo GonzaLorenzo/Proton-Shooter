@@ -414,12 +414,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9206859410140123273, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: ObservedComponents.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9206859410140123273, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: ObservedComponents.Array.data[1]
       value: 
       objectReference: {fileID: 9083416659465049888}
+    - target: {fileID: 9206859410140123273, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: ObservedComponents.Array.data[2]
+      value: 
+      objectReference: {fileID: 2135770466979453177}
     - target: {fileID: 9206859410140123273, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: ObservedComponents.Array.data[3]
       value: 
@@ -476,6 +480,7 @@ MonoBehaviour:
   _maxLife: 100
   _speed: 5
   _dmg: 20
+  _jumpForce: 20
   _playerMaterial: {fileID: 2100000, guid: 9d4df993be894774282a0b17d51a0723, type: 2}
 --- !u!1001 &7301610138106521824
 PrefabInstance:
