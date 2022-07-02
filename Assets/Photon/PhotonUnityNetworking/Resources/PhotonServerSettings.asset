@@ -55,6 +55,9 @@ MonoBehaviour:
   - RPC_LifeChange
   - RPC_Jump
   - RPC_Disconnect
+  - RPC_MouseX
+  - RPC_MouseY
+  - RPC_Interact
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

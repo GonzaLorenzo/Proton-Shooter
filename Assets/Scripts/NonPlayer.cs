@@ -133,7 +133,6 @@ public class NonPlayer : MonoBehaviourPun, IPunObservable
         {
             //photonView.RPC("RPC_Shoot", RpcTarget.All);
             PhotonNetwork.Instantiate(_myProjectile.name, _projectileSpawner.position, Quaternion.LookRotation(aimDir, Vector3.up));
-            
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1) && _canAim)
@@ -210,7 +209,7 @@ public class NonPlayer : MonoBehaviourPun, IPunObservable
         deltaVelocity.y = 0f;
 
         _rb.AddForce(deltaVelocity, ForceMode.VelocityChange);
-
+        
     }
 
     private void Jump()

@@ -8,12 +8,14 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
 {
     Player _owner;
     Rigidbody _rb;
-
+    [SerializeField]
+    private float maxVelocityChange;
     [SerializeField]
     private ProjectileFA _myProjectile;
     [SerializeField]
     private Transform _projectileSpawn;
-
+    [SerializeField]
+    private Transform _myShoulder;
     [SerializeField]
     float _maxLife;
     float _currentLife;
@@ -44,9 +46,27 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
         lifeBarManager?.SpawnLifeBar(this);
     }
 
+    public void RotateMouseY(float aimDir)
+    {
+        _myShoulder.transform.Rotate(aimDir, 0, 0);
+    }
+
+    public void RotateMouseX(float aimDir)
+    {
+        transform.Rotate(0, aimDir, 0);
+    }
+
     public void Move(Vector3 dir)
     {
-        _rb.MovePosition(_rb.position + dir * _speed * Time.fixedDeltaTime);
+        dir = transform.TransformDirection(dir) * _speed;
+        Vector3 velocity = _rb.velocity;
+        Vector3 deltaVelocity = (dir - velocity);
+        deltaVelocity.x = Mathf.Clamp(deltaVelocity.x, -maxVelocityChange, maxVelocityChange);
+        deltaVelocity.z = Mathf.Clamp(deltaVelocity.z, -maxVelocityChange, maxVelocityChange);
+        deltaVelocity.y = 0f;
+
+        _rb.AddForce(deltaVelocity, ForceMode.VelocityChange);
+        //_rb.MovePosition(_rb.position + dir * _speed * Time.fixedDeltaTime);
     }
 
     public void Shoot()
