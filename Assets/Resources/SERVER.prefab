@@ -67,5 +67,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterPrefab: {fileID: 0}
-  _playerPrefab: {fileID: 2746916042824698794, guid: 3b414d7de65c2d34a9489a3a07c36bf8, type: 3}
+  _playerPrefab: {fileID: 8397151594193893243, guid: ad6489570b7075a43b8682d9585502ee, type: 3}
   spawner: {fileID: 0}

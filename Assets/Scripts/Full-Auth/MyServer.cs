@@ -120,7 +120,7 @@ public class MyServer : MonoBehaviourPun
     #region RPCs
 
     [PunRPC]
-    void RPC_AddPlayer(Player player, Transform startTransform)
+    void RPC_AddPlayer(Player player)
     {
         StartCoroutine(WaitForLevel(player));
     }
