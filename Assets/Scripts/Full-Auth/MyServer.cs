@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 
 public class MyServer : MonoBehaviourPun
 {
@@ -12,15 +13,22 @@ public class MyServer : MonoBehaviourPun
     CharacterFA _characterPrefab;
     [SerializeField]
     private GameObject _playerPrefab;
-    Dictionary<Player,CharacterFA> _dictModels = new Dictionary<Player, CharacterFA>();
+    Dictionary<Player, CharacterFA> _dictModels = new Dictionary<Player, CharacterFA>();
     public int PackagePerSecond { get; private set; }
+    public PlayerSpawner spawner;
+
+    internal void setSpawmer(PlayerSpawner spawner)
+    {
+        this.spawner = spawner;
+    }
 
     void Start()
     {
+
         DontDestroyOnLoad(gameObject);
-        if(instance == null)
+        if (instance == null)
         {
-            if(photonView.IsMine)
+            if (photonView.IsMine)
             {
                 Debug.Log("1");
                 photonView.RPC("RPC_SetServer", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer, 1);
@@ -30,7 +38,7 @@ public class MyServer : MonoBehaviourPun
 
     void SetServer(Player serverPlayer, int sceneIndex = 1)
     {
-        if(instance)
+        if (instance)
         {
             Destroy(gameObject);
             return;
@@ -42,8 +50,9 @@ public class MyServer : MonoBehaviourPun
         PhotonNetwork.LoadLevel(sceneIndex);
         var playerLocal = PhotonNetwork.LocalPlayer;
 
-        if(serverPlayer != playerLocal)
+        if (serverPlayer != playerLocal)
         {
+            Debug.Log("INSTANCIATE PLAyER");
             photonView.RPC("RPC_AddPlayer", _server, playerLocal);
         }
     }
@@ -55,10 +64,14 @@ public class MyServer : MonoBehaviourPun
             yield return new WaitForEndOfFrame();
         }
 
+        if (spawner == null)
+            Debug.Log("PlayerSpawner is nullll");
+
+        Debug.Log("GetSpawnPosition " + spawner.GetSpawnPosition());
         //Hacer SpawnManager para instanciar a los jugadores y guardar posiciones.
         //CharacterFA newCharacter = PhotonNetwork.Instantiate(_characterPrefab.name, Vector3.zero, Quaternion.identity).GetComponent<CharacterFA>().SetInitialParameters(player);
         //CharacterFA newCharacter = PhotonNetwork.Instantiate(_playerPrefab.name, Vector3.zero, Quaternion.identity).GetComponent<CharacterFA>().SetInitialParameters(player);
-        CharacterFA newCharacter = PhotonNetwork.Instantiate(_playerPrefab.name, Vector3.zero, Quaternion.identity).transform.GetChild(0).GetComponent<CharacterFA>().SetInitialParameters(player);
+        CharacterFA newCharacter = PhotonNetwork.Instantiate(_playerPrefab.name, spawner.GetSpawnPosition().position, Quaternion.identity).transform.GetChild(0).GetComponent<CharacterFA>().SetInitialParameters(player);
 
         _dictModels.Add(player, newCharacter);
     }
@@ -97,7 +110,7 @@ public class MyServer : MonoBehaviourPun
     #region RPCs
 
     [PunRPC]
-    void RPC_AddPlayer(Player player)
+    void RPC_AddPlayer(Player player, Transform startTransform)
     {
         StartCoroutine(WaitForLevel(player));
     }
@@ -105,7 +118,7 @@ public class MyServer : MonoBehaviourPun
     [PunRPC]
     void RPC_SetServer(Player serverPlayer, int sceneIndex = 1)
     {
-        if(instance)
+        if (instance)
         {
             Destroy(gameObject);
             return;
@@ -117,7 +130,7 @@ public class MyServer : MonoBehaviourPun
         PhotonNetwork.LoadLevel(sceneIndex);
         var playerLocal = PhotonNetwork.LocalPlayer;
 
-        if(serverPlayer != playerLocal)
+        if (serverPlayer != playerLocal)
         {
             photonView.RPC("RPC_AddPlayer", _server, playerLocal);
         }
@@ -155,6 +168,15 @@ public class MyServer : MonoBehaviourPun
         if (_dictModels.ContainsKey(playerRequest))
         {
             _dictModels[playerRequest].Jump();
+        }
+    }
+
+    [PunRPC]
+    void RPC_Interact(Player playerRequest)
+    {
+        if (_dictModels.ContainsKey(playerRequest))
+        {
+            _dictModels[playerRequest].Interact();
         }
     }
 

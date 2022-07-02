@@ -3,30 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class PlayerSpawner : MonoBehaviour
+public class PlayerSpawner : MonoBehaviourPun
 {
-    [SerializeField]
-    private GameObject _playerPrefab;
     [SerializeField]
     private Transform _spawnPos;
     [SerializeField]
     private Transform _spawnPos2;
-    
+    [SerializeField]
+    private Transform _spawnPos3;
+    [SerializeField]
+    private Transform _spawnPos4;
 
-    private void Start()
+
+    private void Awake()
     {
-        switch(PhotonNetwork.CurrentRoom.PlayerCount)
-        {
-        case 0:
-            
-            break;
-        case 1:
-            PhotonNetwork.Instantiate(_playerPrefab.name, _spawnPos.position, Quaternion.identity);
-            break;
-        case 2:
-            PhotonNetwork.Instantiate(_playerPrefab.name, _spawnPos2.position, Quaternion.identity);
-            break;
-        }
-        
+        MyServer.instance.setSpawmer(this);
     }
+    public Transform GetSpawnPosition()
+    {
+        switch (PhotonNetwork.CurrentRoom.PlayerCount)
+        {
+            case 0:
+            case 1:
+                return _spawnPos;
+            case 2:
+                return _spawnPos2;
+            case 3:
+                return _spawnPos3;
+            case 4:
+                return _spawnPos4;
+            default:
+                return _spawnPos;
+        }
+
+    }
+
+
 }
