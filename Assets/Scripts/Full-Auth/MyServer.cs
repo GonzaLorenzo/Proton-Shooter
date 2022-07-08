@@ -82,7 +82,7 @@ public class MyServer : MonoBehaviourPun
         _dictModels.Add(player, newCharacter);
         gameManager.AddPlayerToCount();
     }
-
+     
     public void PlayerDisconnect(Player player)
     {
         PhotonNetwork.Destroy(_dictModels[player].gameObject);
@@ -95,10 +95,14 @@ public class MyServer : MonoBehaviourPun
     {
         photonView.RPC("RPC_Move", _server, player, dir, isIdle);
     }
-
     public void RequestShoot(Player player)
     {
         photonView.RPC("RPC_Shoot", _server, player);
+    }
+
+    public void RequestWinner(Player player)
+    {
+        photonView.RPC("RPC_ShowWinner", RpcTarget.All, player);
     }
 
     public void RequestMouse(Player player, float h, float v)
@@ -204,6 +208,27 @@ public class MyServer : MonoBehaviourPun
             _dictModels[playerRequest].Interact();
         }
     }
+
+    [PunRPC]
+    void RPC_ShowWinner(Player playerRequest)
+    {
+        //foreach (var player in _dictModels)
+            foreach (Player player in PhotonNetwork.PlayerList)
+            {
+                if(player.NickName != playerRequest.NickName)
+                {
+                    if (_dictModels.ContainsKey(playerRequest))
+                    {
+                        _dictModels[playerRequest].Win();
+                    }
+                }
+                else
+                {
+                    //player.Value.Lose();
+                }
+            }
+    }
+
 
     #endregion
 }

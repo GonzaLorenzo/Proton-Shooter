@@ -6,7 +6,12 @@ using Photon.Pun;
 using Photon.Realtime;
 public class CharacterFA : MonoBehaviourPun, IPunObservable
 {
+    [SerializeField]
+    private GameObject _uiWin;
+    [SerializeField]
+    private GameObject _uiLose;
     Player _owner;
+    string _myNickName;
     Rigidbody _rb;
     Animator _animator;
     [SerializeField]
@@ -33,6 +38,7 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
     Material _playerMaterial;
     [SerializeField]
     private Transform _camera;
+    private bool _isAlive = true;
 
     public event Action<float> onLifeBarUpdate = delegate { };
     public event Action onDestroy = delegate { };
@@ -51,6 +57,14 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
         lifeBarManager?.SpawnLifeBar(this);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Win();
+        }
+    }
+
     public void RotateMouse(float h, float v)
     {
         _myShoulder.transform.Rotate(v, 0, 0);
@@ -59,44 +73,50 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
 
     public void Move(Vector3 dir, bool isIdle)
     {
-        dir = transform.TransformDirection(dir) * _speed;
-        Vector3 velocity = _rb.velocity;
-        Vector3 deltaVelocity = (dir - velocity);
-        deltaVelocity.x = Mathf.Clamp(deltaVelocity.x, -maxVelocityChange, maxVelocityChange);
-        deltaVelocity.z = Mathf.Clamp(deltaVelocity.z, -maxVelocityChange, maxVelocityChange);
-        deltaVelocity.y = 0f;
-
-        _rb.AddForce(deltaVelocity, ForceMode.VelocityChange);
-        //_rb.MovePosition(_rb.position + dir * _speed * Time.fixedDeltaTime);
-
-        _animator.SetFloat("FloatX", dir.x);
-        _animator.SetFloat("FloatY", dir.y);
-
-        if (dir.x != 0 || dir.y != 0)
+        if(_isAlive)
         {
-            //_isIdle = false;
-            _animator.SetBool("IsIdle", isIdle);
-        }
-        else
-        {
-            //_isIdle = true;
-            _animator.SetBool("IsIdle", isIdle);
-        }
+            dir = transform.TransformDirection(dir) * _speed;
+            Vector3 velocity = _rb.velocity;
+            Vector3 deltaVelocity = (dir - velocity);
+            deltaVelocity.x = Mathf.Clamp(deltaVelocity.x, -maxVelocityChange, maxVelocityChange);
+            deltaVelocity.z = Mathf.Clamp(deltaVelocity.z, -maxVelocityChange, maxVelocityChange);
+            deltaVelocity.y = 0f;
 
+            _rb.AddForce(deltaVelocity, ForceMode.VelocityChange);
+            //_rb.MovePosition(_rb.position + dir * _speed * Time.fixedDeltaTime);
 
+            _animator.SetFloat("FloatX", dir.x);
+            _animator.SetFloat("FloatY", dir.y);
+
+            if (dir.x != 0 || dir.y != 0)
+            {
+                //_isIdle = false;
+                _animator.SetBool("IsIdle", isIdle);
+            }
+            else
+            {
+                //_isIdle = true;
+                _animator.SetBool("IsIdle", isIdle);
+            }
+        }
     }
 
     public void Shoot()
     {
-        PhotonNetwork.Instantiate(_myProjectile.name, _projectileSpawn.position, transform.rotation)
-                     .GetComponent<ProjectileFA>()
-                     .SetOwner(this)
-                     .SetDmg(_dmg)
-                     .SetMaterial(_myMat, _owner);
+        if(_isAlive)
+        {
+            PhotonNetwork.Instantiate(_myProjectile.name, _projectileSpawn.position, transform.rotation)
+             .GetComponent<ProjectileFA>()
+             .SetOwner(this)
+             .SetDmg(_dmg)
+             .SetMaterial(_myMat, _owner);
+        }
+
     }   
 
     public void Jump()
     {
+        if(_isAlive)
         _rb.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
     }        
 
@@ -104,11 +124,13 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
     {
         _currentLife -= dmg;
         onLifeBarUpdate(_currentLife);
-        if(_currentLife <= 0)
+        if(_currentLife <= 0 && !_isAlive)
         {
-            MyServer.instance.PlayerDisconnect(_owner); //Por ahora lo rajamos.
+            MyServer.instance.RequestWinner(_owner);
+            _isAlive = false;
+
+            MyServer.instance.PlayerDisconnect(_owner);
             photonView.RPC("RPC_DisconnectOwner", _owner);
-            //Animacion muerte, respawn y conteo de vidas.
         }
         else
         {
@@ -118,21 +140,35 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
 
     public void Interact()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(_camera.position, _camera.forward, out hit, 100, doorMask))
+        if(_isAlive)
         {
-            hit.transform.GetComponent<InteractableDoorFA>().Interact();
+            RaycastHit hit;
+            if (Physics.Raycast(_camera.position, _camera.forward, out hit, 100, doorMask))
+            {
+                hit.transform.GetComponent<InteractableDoorFA>().Interact();
+            }
+            else
+            {
+                Debug.Log("else");
+            }
         }
-        else
-        {
-            Debug.Log("else");
-        }
-        
+    }
+
+    public void Win()
+    {
+        Instantiate(_uiWin);
+    }
+
+    public void Lose()
+    {
+        Instantiate(_uiLose);
     }
 
     public CharacterFA SetInitialParameters(Player player)
     {
         _owner = player;
+        _myNickName = player.NickName;
+        Debug.Log("bronca " + _owner);
         _rb = GetComponent<Rigidbody>();
         _currentLife = _maxLife;
         //_myMaterial.color = Color.yellow; TEST

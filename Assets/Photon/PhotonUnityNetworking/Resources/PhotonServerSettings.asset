@@ -66,6 +66,8 @@ MonoBehaviour:
   - RPC_ChangeText
   - RPC_Mouse
   - RPC_OpenDoor
+  - RPC_ShowWinner
+  - RPC_Lose
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

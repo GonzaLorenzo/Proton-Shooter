@@ -76,6 +76,7 @@ public class ControllerFA : MonoBehaviourPun
 
     private void OnApplicationQuit()
     {
+        //MyServer.instance.RequestWinner(_localPlayer);
         MyServer.instance.RequestDisconnection(_localPlayer);
         PhotonNetwork.Disconnect();
     }

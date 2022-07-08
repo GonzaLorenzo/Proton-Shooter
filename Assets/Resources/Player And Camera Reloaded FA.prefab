@@ -483,6 +483,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eaf65d78cda3394982156f433397ce9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _uiWin: {fileID: 7741481355695882458, guid: 9cbbe3a4705e43542acbcbc011bdb889, type: 3}
+  _uiLose: {fileID: 7741481355695882458, guid: e1992d23fc81e9d4bb851f317e883495, type: 3}
   maxVelocityChange: 20
   _myProjectile: {fileID: 1262773070001221535, guid: 2390ab6392ba8a24ca86ceadf3a3594c, type: 3}
   _projectileSpawn: {fileID: 3247090438176216635}
