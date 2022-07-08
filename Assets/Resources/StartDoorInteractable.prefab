@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 4130426571069011630}
   - component: {fileID: 4130426571069011629}
   - component: {fileID: 416304698048595629}
-  m_Layer: 0
+  - component: {fileID: 1314132302}
+  - component: {fileID: 6628008639757940029}
+  m_Layer: 8
   m_Name: StartDoorInteractable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,6 +100,31 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
+--- !u!114 &1314132302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4130426571069011603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b110f18b40ca8241bd234b1ab8c1698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &6628008639757940029
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4130426571069011603}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.3732686, y: 4.136736, z: 0.3052012}
+  m_Center: {x: -2.6866343, y: 1.5683689, z: 0.532247}
 --- !u!1001 &4130426571372208268
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -106,12 +133,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 4130426571069011628}
     m_Modifications:
     - target: {fileID: 169994, guid: 088b5f04d52a542ec975e88d7d9934f5, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 169994, guid: 088b5f04d52a542ec975e88d7d9934f5, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 192030, guid: 088b5f04d52a542ec975e88d7d9934f5, type: 3}
       propertyPath: m_Name
       value: Door_Left_01 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 192030, guid: 088b5f04d52a542ec975e88d7d9934f5, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 192030, guid: 088b5f04d52a542ec975e88d7d9934f5, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -164,12 +199,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 4130426571069011628}
     m_Modifications:
     - target: {fileID: 169994, guid: 088b5f04d52a542ec975e88d7d9934f5, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 169994, guid: 088b5f04d52a542ec975e88d7d9934f5, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 192030, guid: 088b5f04d52a542ec975e88d7d9934f5, type: 3}
       propertyPath: m_Name
       value: Door_Left_01 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 192030, guid: 088b5f04d52a542ec975e88d7d9934f5, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 192030, guid: 088b5f04d52a542ec975e88d7d9934f5, type: 3}
       propertyPath: m_StaticEditorFlags

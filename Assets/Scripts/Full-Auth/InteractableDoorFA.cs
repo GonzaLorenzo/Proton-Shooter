@@ -1,18 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun; 
 
-public class InteractableDoorFA : MonoBehaviour
+public class InteractableDoorFA : MonoBehaviourPun
 {
-    // Start is called before the first frame update
-    void Start()
+    private Animator _animator;
+    private BoxCollider _boxCollider;
+
+    private void Awake()
     {
-        
+        _animator = GetComponent<Animator>();    
+        _boxCollider = GetComponent<BoxCollider>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Interact()
     {
-        
+        photonView.RPC("RPC_OpenDoor", RpcTarget.AllBuffered);
     }
+
+    [PunRPC]
+    void RPC_OpenDoor()
+    {
+        _animator.SetBool("isOpen", true);
+        _boxCollider.enabled = false;
+    }
+
+
 }

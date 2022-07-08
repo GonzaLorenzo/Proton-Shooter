@@ -50,6 +50,11 @@ public class ControllerFA : MonoBehaviourPun
             MyServer.instance.RequestJump(_localPlayer);
         }
 
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            MyServer.instance.RequestInteract(_localPlayer);
+        }
+
         //SetIdle();
     }
 

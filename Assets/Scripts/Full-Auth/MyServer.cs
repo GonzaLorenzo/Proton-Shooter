@@ -111,6 +111,11 @@ public class MyServer : MonoBehaviourPun
         photonView.RPC("RPC_Jump", _server, player);
     }
 
+    public void RequestInteract(Player player)
+    {
+        photonView.RPC("RPC_Interact", _server, player);
+    }
+
     public void RequestDisconnection(Player player)
     {
         photonView.RPC("RPC_Disconnect", _server, player);
@@ -196,7 +201,7 @@ public class MyServer : MonoBehaviourPun
     {
         if (_dictModels.ContainsKey(playerRequest))
         {
-            //_dictModels[playerRequest].Interact();
+            _dictModels[playerRequest].Interact();
         }
     }
 

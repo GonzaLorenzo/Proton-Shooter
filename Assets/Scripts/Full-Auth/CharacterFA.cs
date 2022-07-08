@@ -28,8 +28,11 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
     float _jumpForce;
     private Renderer[] _myChildrenRenderers;
     private Material _myMat;
+    public LayerMask doorMask;
     [SerializeField]
     Material _playerMaterial;
+    [SerializeField]
+    private Transform _camera;
 
     public event Action<float> onLifeBarUpdate = delegate { };
     public event Action onDestroy = delegate { };
@@ -111,6 +114,20 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
         {
             //photonView.RPC("RPC_LifeChange", _owner, _currentLife);
         }
+    }
+
+    public void Interact()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(_camera.position, _camera.forward, out hit, 100, doorMask))
+        {
+            hit.transform.GetComponent<InteractableDoorFA>().Interact();
+        }
+        else
+        {
+            Debug.Log("else");
+        }
+        
     }
 
     public CharacterFA SetInitialParameters(Player player)
