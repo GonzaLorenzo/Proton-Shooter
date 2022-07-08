@@ -267,9 +267,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00c3559efcdd829438c71c3833c8cc9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 8397151594193893243, guid: c725d3aaba4008b45bd7f41d2311737a, type: 3}
   _spawnPos: {fileID: 757540364}
   _spawnPos2: {fileID: 2143591904}
+  _spawnPos3: {fileID: 0}
+  _spawnPos4: {fileID: 0}
 --- !u!4 &114947948
 Transform:
   m_ObjectHideFlags: 0
@@ -6490,10 +6491,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 416304698048595629, guid: 24f2b402dd09b734b9eac8a7889b9a8b, type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[0].SynchronizeType
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4130426571069011603, guid: 24f2b402dd09b734b9eac8a7889b9a8b, type: 3}
       propertyPath: m_Name
       value: StartDoor

@@ -58,6 +58,11 @@ MonoBehaviour:
   - RPC_MouseX
   - RPC_MouseY
   - RPC_Interact
+  - RPC_StartGame
+  - RPC_ChangeGameText
+  - RPC_ChangeStartingText
+  - RPC_IdleAnim
+  - RPC_MoveAnim
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -104,6 +104,14 @@ PrefabInstance:
       propertyPath: m_SynchronizeParameters.Array.data[3].SynchronizeType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[4].SynchronizeType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[5].SynchronizeType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7673487251499248672, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -484,7 +492,6 @@ MonoBehaviour:
   _dmg: 20
   _jumpForce: 20
   _playerMaterial: {fileID: 2100000, guid: 9d4df993be894774282a0b17d51a0723, type: 2}
-  _myAimingCamera: {fileID: 304702519153297467}
 --- !u!1001 &7301610138106521824
 PrefabInstance:
   m_ObjectHideFlags: 0

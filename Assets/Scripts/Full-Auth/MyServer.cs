@@ -16,10 +16,16 @@ public class MyServer : MonoBehaviourPun
     Dictionary<Player, CharacterFA> _dictModels = new Dictionary<Player, CharacterFA>();
     public int PackagePerSecond { get; private set; }
     public PlayerSpawner spawner;
+    public GameManagerFA gameManager;
 
-    internal void setSpawmer(PlayerSpawner spawner)
+    internal void setSpawner(PlayerSpawner spawner)
     {
         this.spawner = spawner;
+    }
+
+    internal void setGameManager(GameManagerFA gameManager)
+    {
+        this.gameManager = gameManager;
     }
 
     void Start()
@@ -74,6 +80,7 @@ public class MyServer : MonoBehaviourPun
         CharacterFA newCharacter = PhotonNetwork.Instantiate(_playerPrefab.name, spawner.GetSpawnPosition().position, Quaternion.identity).transform.GetChild(0).GetComponent<CharacterFA>().SetInitialParameters(player);
 
         _dictModels.Add(player, newCharacter);
+        gameManager.AddPlayerToCount();
     }
 
     public void PlayerDisconnect(Player player)
@@ -84,9 +91,9 @@ public class MyServer : MonoBehaviourPun
 
     #region Requests
 
-    public void RequestMove(Player player, Vector3 dir)
+    public void RequestMove(Player player, Vector3 dir, bool isIdle)
     {
-        photonView.RPC("RPC_Move", _server, player, dir);
+        photonView.RPC("RPC_Move", _server, player, dir, isIdle);
     }
 
     public void RequestShoot(Player player)
@@ -147,11 +154,11 @@ public class MyServer : MonoBehaviourPun
     }
 
     [PunRPC]
-    void RPC_Move(Player playerRequest, Vector3 dir)
+    void RPC_Move(Player playerRequest, Vector3 dir, bool isIdle)
     {
         if (_dictModels.ContainsKey(playerRequest))
         {
-            _dictModels[playerRequest].Move(dir);
+            _dictModels[playerRequest].Move(dir, isIdle);
         }
     }
 

@@ -8,6 +8,7 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
 {
     Player _owner;
     Rigidbody _rb;
+    Animator _animator;
     [SerializeField]
     private float maxVelocityChange;
     [SerializeField]
@@ -35,6 +36,7 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
 
     void Awake()
     {
+        _animator = GetComponent<Animator>(); 
         LifeBarManager _lifeBarManager = FindObjectOfType<LifeBarManager>();
         //_myMat = GetComponent<Renderer>().material;
         //_myMaterial.color = Color.red; TEST
@@ -56,7 +58,7 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
         transform.Rotate(0, aimDir, 0);
     }
 
-    public void Move(Vector3 dir)
+    public void Move(Vector3 dir, bool isIdle)
     {
         dir = transform.TransformDirection(dir) * _speed;
         Vector3 velocity = _rb.velocity;
@@ -67,6 +69,20 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
 
         _rb.AddForce(deltaVelocity, ForceMode.VelocityChange);
         //_rb.MovePosition(_rb.position + dir * _speed * Time.fixedDeltaTime);
+
+        if (dir.x != 0 || dir.y != 0)
+        {
+            //_isIdle = false;
+            _animator.SetBool("IsIdle", isIdle);
+        }
+        else
+        {
+            //_isIdle = true;
+            _animator.SetBool("IsIdle", isIdle);
+        }
+
+        _animator.SetFloat("FloatX", dir.x);
+        _animator.SetFloat("FloatY", dir.y);
     }
 
     public void Shoot()

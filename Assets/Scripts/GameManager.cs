@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviourPun
     public TMP_Text txtCount;
     public GameObject door;
     public bool startGame;
+
+
+
     void Start()
     {
         Cursor.visible = false;

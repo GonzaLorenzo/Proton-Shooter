@@ -17,7 +17,7 @@ public class PlayerSpawner : MonoBehaviourPun
 
     private void Awake()
     {
-        MyServer.instance.setSpawmer(this);
+        MyServer.instance.setSpawner(this);
     }
     public Transform GetSpawnPosition()
     {

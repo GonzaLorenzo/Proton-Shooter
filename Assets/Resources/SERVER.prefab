@@ -69,3 +69,4 @@ MonoBehaviour:
   _characterPrefab: {fileID: 0}
   _playerPrefab: {fileID: 8397151594193893243, guid: ad6489570b7075a43b8682d9585502ee, type: 3}
   spawner: {fileID: 0}
+  gameManager: {fileID: 0}
