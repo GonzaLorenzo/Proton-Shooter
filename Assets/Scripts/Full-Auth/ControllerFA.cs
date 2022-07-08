@@ -35,14 +35,9 @@ public class ControllerFA : MonoBehaviourPun
         float h = _horizontalSpeed * Input.GetAxis("Mouse X");
         float v = _verticalSpeed * -Input.GetAxis("Mouse Y");
 
-        if (h != 0)
+        if (h != 0 || v != 0)
         {
-            MyServer.instance.RequestMouseX(_localPlayer, h);
-        }
-
-        if (v != 0)
-        {
-            MyServer.instance.RequestMouseY(_localPlayer, v);
+            MyServer.instance.RequestMouse(_localPlayer, h, v);
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))

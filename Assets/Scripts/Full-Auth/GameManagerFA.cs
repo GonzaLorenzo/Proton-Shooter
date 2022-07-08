@@ -7,6 +7,8 @@ using Photon.Realtime;
 
 public class GameManagerFA : MonoBehaviourPun
 {
+    private string _startingText = "Se deben conectar al menos dos jugadores para comenzar el juego.";
+    private string _gameText = "Comienzo del juego";
     public int playersConnected = 0;
     public TMP_Text txtCount;
     public GameObject door;
@@ -24,7 +26,7 @@ public class GameManagerFA : MonoBehaviourPun
 
         //txtCount.fontSize = 20;
         //txtCount.text = "Se debe conectar al menos dos jugadores. Para comenzar el juego.";
-        photonView.RPC("RPC_ChangeStartingText", RpcTarget.AllBuffered);
+        photonView.RPC("RPC_ChangeText", RpcTarget.AllBuffered, _startingText);
         //playersConected.ForEach(x => x.canMove = false);
         //Debug.Log("Se debe conectar al menos dos jugadores");
     }
@@ -55,12 +57,10 @@ public class GameManagerFA : MonoBehaviourPun
 
         if (playersConnected == 2)
         {
-            txtCount.text = "Comienzo del juego";
-            txtCount.fontSize = 20;
             startGame = true;
             //StartCoroutine(StartGame());
             photonView.RPC("RPC_StartGame", RpcTarget.AllBuffered);
-            photonView.RPC("RPC_ChangeGameText", RpcTarget.AllBuffered);
+            photonView.RPC("RPC_ChangeText", RpcTarget.AllBuffered, _gameText);
         }
     }
 
@@ -77,16 +77,9 @@ public class GameManagerFA : MonoBehaviourPun
     }
 
     [PunRPC]
-    void RPC_ChangeGameText()
+    void RPC_ChangeText(string textToUse)
     {
-        txtCount.text = "Comienzo del juego";
+        txtCount.text = textToUse;
         txtCount.fontSize = 20;
-    }
-
-    [PunRPC]
-    void RPC_ChangeStartingText()
-    {
-        txtCount.fontSize = 20;
-        txtCount.text = "Se debe conectar al menos dos jugadores. Para comenzar el juego.";
     }
 }

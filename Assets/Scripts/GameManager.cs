@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviourPun
 {
+    private string _startingText = "Se deben conectar al menos dos jugadores para comenzar el juego.";
+    private string _gameText = "Comienzo del juego";
     public List<NonPlayer> playersConected;
     public TMP_Text txtCount;
     public GameObject door;

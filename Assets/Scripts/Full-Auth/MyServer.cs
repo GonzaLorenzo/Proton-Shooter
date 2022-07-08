@@ -101,14 +101,9 @@ public class MyServer : MonoBehaviourPun
         photonView.RPC("RPC_Shoot", _server, player);
     }
 
-    public void RequestMouseX(Player player, float dir)
+    public void RequestMouse(Player player, float h, float v)
     {
-        photonView.RPC("RPC_MouseX", _server, player, dir);
-    }
-
-    public void RequestMouseY(Player player, float dir)
-    {
-        photonView.RPC("RPC_MouseY", _server, player, dir);
+        photonView.RPC("RPC_Mouse", _server, player, h, v);
     }
 
     public void RequestJump(Player player)
@@ -170,20 +165,11 @@ public class MyServer : MonoBehaviourPun
     }
 
     [PunRPC]
-    void RPC_MouseX(Player playerRequest, float dir)
+    void RPC_Mouse(Player playerRequest, float h, float v)
     {
         if (_dictModels.ContainsKey(playerRequest))
         {
-            _dictModels[playerRequest].RotateMouseX(dir);
-        }
-    }
-
-    [PunRPC]
-    void RPC_MouseY(Player playerRequest, float dir)
-    {
-        if (_dictModels.ContainsKey(playerRequest))
-        {
-            _dictModels[playerRequest].RotateMouseY(dir);
+            _dictModels[playerRequest].RotateMouse(h, v);
         }
     }
 

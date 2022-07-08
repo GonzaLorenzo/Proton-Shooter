@@ -63,6 +63,8 @@ MonoBehaviour:
   - RPC_ChangeStartingText
   - RPC_IdleAnim
   - RPC_MoveAnim
+  - RPC_ChangeText
+  - RPC_Mouse
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

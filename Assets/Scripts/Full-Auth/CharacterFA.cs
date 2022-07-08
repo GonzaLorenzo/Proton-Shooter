@@ -48,14 +48,10 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
         lifeBarManager?.SpawnLifeBar(this);
     }
 
-    public void RotateMouseY(float aimDir)
+    public void RotateMouse(float h, float v)
     {
-        _myShoulder.transform.Rotate(aimDir, 0, 0);
-    }
-
-    public void RotateMouseX(float aimDir)
-    {
-        transform.Rotate(0, aimDir, 0);
+        _myShoulder.transform.Rotate(v, 0, 0);
+        transform.Rotate(0, h, 0);
     }
 
     public void Move(Vector3 dir, bool isIdle)
@@ -70,6 +66,9 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
         _rb.AddForce(deltaVelocity, ForceMode.VelocityChange);
         //_rb.MovePosition(_rb.position + dir * _speed * Time.fixedDeltaTime);
 
+        _animator.SetFloat("FloatX", dir.x);
+        _animator.SetFloat("FloatY", dir.y);
+
         if (dir.x != 0 || dir.y != 0)
         {
             //_isIdle = false;
@@ -81,8 +80,7 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
             _animator.SetBool("IsIdle", isIdle);
         }
 
-        _animator.SetFloat("FloatX", dir.x);
-        _animator.SetFloat("FloatY", dir.y);
+
     }
 
     public void Shoot()
