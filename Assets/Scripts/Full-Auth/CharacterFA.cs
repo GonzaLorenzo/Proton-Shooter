@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using Cinemachine;
 public class CharacterFA : MonoBehaviourPun, IPunObservable
 {
     [SerializeField]
@@ -39,13 +40,17 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
     [SerializeField]
     private Transform _camera;
     private bool _isAlive = true;
-
+    [SerializeField]
+    private CinemachineVirtualCamera _mainCamera;
     public event Action<float> onLifeBarUpdate = delegate { };
     public event Action onDestroy = delegate { };
 
     void Awake()
     {
+        //_gm = GameObject.Find("GameManager").GetComponent<GameManagerFA>();
+        //_mainCamera = GameObject.Find("MainCamera").GetComponent<CinemachineBrain>();
         _animator = GetComponent<Animator>(); 
+        //_camera = _mainCamera.transform.position;
         LifeBarManager _lifeBarManager = FindObjectOfType<LifeBarManager>();
         //_myMat = GetComponent<Renderer>().material;
         //_myMaterial.color = Color.red; TEST
@@ -54,15 +59,12 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
     void Start()
     {
         CanvasLifeBar lifeBarManager = FindObjectOfType<CanvasLifeBar>();
-        lifeBarManager?.SpawnLifeBar(this);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
+        //if(PhotonNetwork.CurrentRoom.PlayerCount <= 2)
+        if (PhotonNetwork.PlayerList.Length <= 2)
         {
-            Win();
+            _mainCamera.Priority = 1000;
         }
+        lifeBarManager?.SpawnLifeBar(this);
     }
 
     public void RotateMouse(float h, float v)
@@ -128,7 +130,6 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
         {
             //MyServer.instance.RequestWinner(_owner);
             _isAlive = false;
-            Debug.Log("Mandamos el disconnect aw aw aw");
             MyServer.instance.PlayerDisconnect(_owner);
             photonView.RPC("RPC_DisconnectOwner", _owner);
         }
@@ -142,14 +143,24 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
     {
         if(_isAlive)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(_camera.position, _camera.forward, out hit, 100, doorMask))
+            //RaycastHit hit;
+            //if (Physics.Raycast(_mainCamera.transform.position, _mainCamera.transform.forward, out hit, 100, doorMask))
+            //{
+                //hit.transform.GetComponent<InteractableDoorFA>().Interact();
+            //}
+            //else
+            //{
+                //Debug.Log("else");
+            //}
+
+            Collider[] allTargets = Physics.OverlapSphere(transform.position, 3.5f, doorMask);
+
+            foreach (var items in allTargets)
             {
-                hit.transform.GetComponent<InteractableDoorFA>().Interact();
-            }
-            else
-            {
-                Debug.Log("else");
+                if(items != null)
+                {
+                    items.GetComponent<InteractableDoorFA>().Interact();
+                }
             }
         }
     }

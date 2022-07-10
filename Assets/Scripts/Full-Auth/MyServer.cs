@@ -114,12 +114,7 @@ public class MyServer : MonoBehaviourPun
     {
         photonView.RPC("RPC_Shoot", _server, player);
     }
-
-    public void RequestWinner(Player player)
-    {
-        photonView.RPC("RPC_ShowWinner", RpcTarget.All, player);
-    }
-
+    
     public void RequestMouse(Player player, float h, float v)
     {
         photonView.RPC("RPC_Mouse", _server, player, h, v);
@@ -223,30 +218,6 @@ public class MyServer : MonoBehaviourPun
             _dictModels[playerRequest].Interact();
         }
     }
-
-    [PunRPC]
-    //void RPC_ShowWinner(Player playerRequest)
-    void RPC_ShowWinner(Player player)
-    {
-        _dictModels[player].Win();
-
-        //foreach (var player in _dictModels)
-            //foreach (Player player in PhotonNetwork.PlayerList)
-            //{
-                //if(player.NickName != playerRequest.NickName)
-                //{
-                    //if (_dictModels.ContainsKey(playerRequest))
-                    //{
-                    //    _dictModels[playerRequest].Win();
-                    //}
-                //}
-                //else
-                //{
-                    //player.Value.Lose();
-                //}
-            //}
-    }
-
 
     #endregion
 }

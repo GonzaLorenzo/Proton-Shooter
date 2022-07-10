@@ -68,6 +68,7 @@ MonoBehaviour:
   - RPC_OpenDoor
   - RPC_ShowWinner
   - RPC_Lose
+  - RPC_SetCamera
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

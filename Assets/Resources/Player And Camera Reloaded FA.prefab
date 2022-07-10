@@ -498,6 +498,7 @@ MonoBehaviour:
     m_Bits: 256
   _playerMaterial: {fileID: 2100000, guid: 9d4df993be894774282a0b17d51a0723, type: 2}
   _camera: {fileID: 369054762165063095}
+  _mainCamera: {fileID: 369054762165063092}
 --- !u!1001 &7301610138106521824
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -694,6 +695,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8936501122619898154, guid: 94a4e564506b3974a916f9e85cb31cbc, type: 3}
   m_PrefabInstance: {fileID: 8726833915934848157}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &369054762165063092 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8936501122619898153, guid: 94a4e564506b3974a916f9e85cb31cbc, type: 3}
+  m_PrefabInstance: {fileID: 8726833915934848157}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369054762165063090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &369054761700003657 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8936501120946879444, guid: 94a4e564506b3974a916f9e85cb31cbc, type: 3}
