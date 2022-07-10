@@ -70,6 +70,12 @@ public class GameManagerFA : MonoBehaviourPun
         //yield return null;
     //}
 
+    public void AnnounceWinnerFA(string nickName)
+    {
+        string finalText = "El ganador es: " + nickName;
+        photonView.RPC("RPC_ChangeText", RpcTarget.AllBuffered, finalText);
+    }
+
     [PunRPC]
     void RPC_StartGame()
     {

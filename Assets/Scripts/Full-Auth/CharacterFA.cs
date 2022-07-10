@@ -124,11 +124,11 @@ public class CharacterFA : MonoBehaviourPun, IPunObservable
     {
         _currentLife -= dmg;
         onLifeBarUpdate(_currentLife);
-        if(_currentLife <= 0 && !_isAlive)
+        if(_currentLife <= 0 && _isAlive)
         {
-            MyServer.instance.RequestWinner(_owner);
+            //MyServer.instance.RequestWinner(_owner);
             _isAlive = false;
-
+            Debug.Log("Mandamos el disconnect aw aw aw");
             MyServer.instance.PlayerDisconnect(_owner);
             photonView.RPC("RPC_DisconnectOwner", _owner);
         }

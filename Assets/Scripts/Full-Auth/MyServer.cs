@@ -85,8 +85,23 @@ public class MyServer : MonoBehaviourPun
      
     public void PlayerDisconnect(Player player)
     {
+        foreach (Player playerInList in _dictModels.Keys)
+        {
+            if (playerInList != player)
+            {
+                //photonView.RPC("RPC_ShowWinner", RpcTarget.AllBuffered, playerInList);
+                gameManager.AnnounceWinnerFA(playerInList.NickName);
+                //photonView.RPC("RPC_ShowWinner", RpcTarget.AllBuffered, playerInList);
+                //photonView.RPC("RPC_ShowWinner", RpcTarget.AllBuffered, playerInList.Key);
+
+                Debug.Log("Se mandó " + playerInList);
+
+                //playerInList.Value.Win();
+            }
+        }
+
         PhotonNetwork.Destroy(_dictModels[player].gameObject);
-        _dictModels.Remove(player);
+        _dictModels.Remove(player);  
     }
 
     #region Requests
@@ -210,23 +225,26 @@ public class MyServer : MonoBehaviourPun
     }
 
     [PunRPC]
-    void RPC_ShowWinner(Player playerRequest)
+    //void RPC_ShowWinner(Player playerRequest)
+    void RPC_ShowWinner(Player player)
     {
+        _dictModels[player].Win();
+
         //foreach (var player in _dictModels)
-            foreach (Player player in PhotonNetwork.PlayerList)
-            {
-                if(player.NickName != playerRequest.NickName)
-                {
-                    if (_dictModels.ContainsKey(playerRequest))
-                    {
-                        _dictModels[playerRequest].Win();
-                    }
-                }
-                else
-                {
+            //foreach (Player player in PhotonNetwork.PlayerList)
+            //{
+                //if(player.NickName != playerRequest.NickName)
+                //{
+                    //if (_dictModels.ContainsKey(playerRequest))
+                    //{
+                    //    _dictModels[playerRequest].Win();
+                    //}
+                //}
+                //else
+                //{
                     //player.Value.Lose();
-                }
-            }
+                //}
+            //}
     }
 
 
