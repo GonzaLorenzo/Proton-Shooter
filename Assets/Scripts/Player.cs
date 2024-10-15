@@ -59,15 +59,26 @@ public class Player : MonoBehaviourPun, IPunObservable
     private bool _isIdle = true;
     private bool _canWalk = true;
     private bool _isDead = false;
+    private bool _isThrowingGranades = false;
     private bool _canAim = true;
     private int _totalLifes = 3;
     private bool _isAlive = true;
     private Renderer[] _myChildrenRenderers;
     public event Action<float> onLifeBarUpdate = delegate { };
+    public event Action<int> onGranadeUiUpdate = delegate { };
     public event Action onDestroy = delegate { };
+
+    [SerializeField]
+    private int _Granades;
+
+    [SerializeField]
+
+    private int _maxGranades;
 
     void Start()
     {
+        _maxGranades = 3;
+        _Granades = 3;
         LifeBarManager _lifeBarManager = FindObjectOfType<LifeBarManager>();
         _lifeBarManager?.SpawnLifeBar(this);
         _myChildrenRenderers = GetComponentsInChildren<Renderer>();
@@ -133,7 +144,15 @@ public class Player : MonoBehaviourPun, IPunObservable
         {
             //photonView.RPC("RPC_Shoot", RpcTarget.All);
             PhotonNetwork.Instantiate(_myProjectile.name, _projectileSpawner.position, Quaternion.LookRotation(aimDir, Vector3.up));
-            
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.G) && _Granades > 0)
+        {
+            //photonView.RPC("RPC_Shoot", RpcTarget.All);
+            Debug.Log("Tirar Granadas");
+            StartCoroutine(StartThrowingGranades());
+
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1) && _canAim)
@@ -150,6 +169,13 @@ public class Player : MonoBehaviourPun, IPunObservable
         {
             TakeDamage(20);
         }
+    }
+
+    IEnumerator StartThrowingGranades()
+    {
+        _animator.SetBool("IsThrowingGranades", true);
+        yield return new WaitForSeconds(1);
+        _animator.SetBool("IsThrowingGranades", false);
     }
 
     private void FixedUpdate()
@@ -235,7 +261,7 @@ public class Player : MonoBehaviourPun, IPunObservable
 
     private void LoseScreen()
     {
-        if(!photonView.IsMine)
+        if (!photonView.IsMine)
         {
             Instantiate(_uiWin);
             return;
@@ -290,6 +316,22 @@ public class Player : MonoBehaviourPun, IPunObservable
             var lifeBarFillAmount = (float)stream.ReceiveNext();
 
             onLifeBarUpdate(lifeBarFillAmount);
+        }
+    }
+
+    public void AddGranades(int granades)
+    {
+        if (photonView.IsMine)
+        {
+            if (_Granades < _maxGranades)
+                _Granades += _maxGranades;
+
+            onLifeBarUpdate(_life);
+
+            if (_life <= 0)
+            {
+                photonView.RPC("RPC_Die", RpcTarget.All);
+            }
         }
     }
 

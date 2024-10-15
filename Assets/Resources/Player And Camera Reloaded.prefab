@@ -69,8 +69,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 369054762165063090}
     - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: ShowParameterInspector
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: m_SynchronizeParameters.Array.size
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: m_SynchronizeParameters.Array.data[4].Name
@@ -89,6 +93,22 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[6].Name
+      value: IsThrowingGranades
+      objectReference: {fileID: 0}
+    - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[6].Type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[7].Name
+      value: ThrowingGranades
+      objectReference: {fileID: 0}
+    - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[7].Type
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: m_SynchronizeParameters.Array.data[0].SynchronizeType
       value: 2
       objectReference: {fileID: 0}
@@ -103,6 +123,18 @@ PrefabInstance:
     - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: m_SynchronizeParameters.Array.data[3].SynchronizeType
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[6].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[7].SynchronizeType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7673487250857332701, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: m_WarningMessage
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7673487251499248672, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: m_Layer
@@ -199,6 +231,10 @@ PrefabInstance:
     - target: {fileID: 7673487251499248718, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7673487251499248718, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7673487251499248720, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: m_Layer
