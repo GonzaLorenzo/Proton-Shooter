@@ -57,6 +57,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7741481355695882458, guid: c198c882f03661f4f8dcc8d359024edc, type: 3}
     - target: {fileID: 5013784141984525225, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: _myGranade
+      value: 
+      objectReference: {fileID: 4123115966626502256, guid: 772d8f17e5eb5664f88d777316982556, type: 3}
+    - target: {fileID: 5013784141984525225, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: debugTransform
       value: 
       objectReference: {fileID: 0}
@@ -74,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: m_SynchronizeParameters.Array.size
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5138326725554955953, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: m_SynchronizeParameters.Array.data[4].Name

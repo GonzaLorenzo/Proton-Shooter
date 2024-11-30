@@ -75,6 +75,10 @@ public class Player : MonoBehaviourPun, IPunObservable
 
     private int _maxGranades;
 
+    [SerializeField]
+    private Granade _myGranade;
+
+
     void Start()
     {
         _maxGranades = 3;
@@ -151,6 +155,8 @@ public class Player : MonoBehaviourPun, IPunObservable
         {
             //photonView.RPC("RPC_Shoot", RpcTarget.All);
             Debug.Log("Tirar Granadas");
+
+            PhotonNetwork.Instantiate(_myGranade.name, _projectileSpawner.position, Quaternion.LookRotation(aimDir, Vector3.up));
             StartCoroutine(StartThrowingGranades());
 
         }
@@ -364,6 +370,15 @@ public class Player : MonoBehaviourPun, IPunObservable
         _animator.SetBool("IsAlive", _isAlive);
         _canAim = false;
         _animator.SetBool("IsDead", _isDead);
+    }
+
+    [PunRPC]
+    void RPC_ThrowGranade()
+    {
+        Instantiate(_myGranade, _projectileSpawner.position, Quaternion.identity)
+        .SetOwner(this)
+        .SetForward(aimDir)
+        .SetMyThrowPosition(_projectileSpawner.position);
     }
     #endregion
 }

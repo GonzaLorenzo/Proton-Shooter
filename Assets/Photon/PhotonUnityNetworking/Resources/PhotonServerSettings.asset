@@ -43,6 +43,7 @@ MonoBehaviour:
   - RPC_Die
   - RPC_MakeDamage
   - Start_Game
+  - RPC_ThrowGranade
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
