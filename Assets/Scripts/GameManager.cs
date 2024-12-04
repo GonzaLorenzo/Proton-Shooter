@@ -3,17 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviourPun
 {
     public List<Player> playersConected;
     public TMP_Text txtCount;
     public GameObject door;
+    public GameObject doorTwo;
     public bool startGame;
+
+    [SerializeField] private Text nameText;
     void Start()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        if (photonView.IsMine)
+            nameText.text = PhotonNetwork.NickName;
+        else
+            nameText.text = photonView.Owner.NickName;
+
     }
     void Update()
     {
@@ -44,4 +54,6 @@ public class GameManager : MonoBehaviourPun
     {
         door.GetComponent<Animator>().SetBool("isOpen", true);
     }
+
+
 }

@@ -102,27 +102,26 @@ public class Granade : MonoBehaviour
 
     void CheckExplode()
     {
-        for (int i = 0; i < 360; i += 10) // Incrementa para mayor densidad de líneas
-        {
-            float angleRad = Mathf.Deg2Rad * i;
-            Vector3 direction = new Vector3(Mathf.Cos(angleRad), 0, Mathf.Sin(angleRad));
-            Debug.DrawLine(transform.position, transform.position + direction * _explosionRadius, Color.red, 2f);
-        }
-        // Encuentra objetos dentro del radio de explosión
+        //for (int i = 0; i < 360; i += 10) // Incrementa para mayor densidad de líneas
+        //{
+        //    float angleRad = Mathf.Deg2Rad * i;
+        //    Vector3 direction = new Vector3(Mathf.Cos(angleRad), 0, Mathf.Sin(angleRad));
+        //    Debug.DrawLine(transform.position, transform.position + direction * _explosionRadius, Color.red, 2f);
+        //}
+       
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, _explosionRadius);
         foreach (Collider hit in hitColliders)
         {
-            // Checa si el objeto puede recibir daño
+          
             Player damageable = hit.GetComponent<Player>();
             if (damageable != null)
             {
-                Debug.Log("Encontre un player");
                 // Aplica el daño
                 damageable.TakeDamage(_dmg);
             }
         }
 
-        // Aquí puedes agregar efectos visuales o sonoros
+       
         Destroy(gameObject);
     }
 

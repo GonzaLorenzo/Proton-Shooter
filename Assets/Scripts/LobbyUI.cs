@@ -8,16 +8,23 @@ public class LobbyUI : MonoBehaviourPunCallbacks
 {
     //public UnityEngine.UI.InputField serverNameField;
     public TMPro.TMP_InputField serverNameField;
+    public TMPro.TMP_InputField userNameField;
 
+    public GameObject panelLobby;
+    public GameObject parentUI;
+    public GameObject prebaUI_playerInfo;
+    public GameObject ConnectedScreen;
     public void BTN_CreateRoom()
     {
         RoomOptions options = new RoomOptions();
-        options.MaxPlayers = 2;
+        options.MaxPlayers = 4;
+        PhotonNetwork.NickName = userNameField.text;
         PhotonNetwork.CreateRoom(serverNameField.text, options);
     }
 
     public void BTN_JoinRoom()
     {
+        PhotonNetwork.NickName = userNameField.text;
         PhotonNetwork.JoinRoom(serverNameField.text);
     }
 
@@ -27,6 +34,32 @@ public class LobbyUI : MonoBehaviourPunCallbacks
     }
 
     public override void OnJoinedRoom()
+    {
+        panelLobby.SetActive(true);
+        LobbyManager lobby = panelLobby.GetComponent<LobbyManager>();
+        ConnectedScreen.SetActive(false);
+
+
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            //Debug.Log(player.NickName);
+            var playerInfo = Instantiate(prebaUI_playerInfo, parentUI.transform);
+            playerInfo.GetComponent<PlayerInformation>().SetTextName(player.NickName);
+            playerInfo.GetComponent<PlayerInformation>().SetColorPanel(player == PhotonNetwork.LocalPlayer);
+        }
+    }
+
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+        Debug.Log($"El jugador {newPlayer.NickName} se unió a la sala.");
+
+        var playerInfo = Instantiate(prebaUI_playerInfo, parentUI.transform);
+        playerInfo.GetComponent<PlayerInformation>().SetTextName(newPlayer.NickName);
+    }
+
+
+
+    public void StartGame()
     {
         PhotonNetwork.LoadLevel("Test_Map");
     }
