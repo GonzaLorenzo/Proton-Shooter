@@ -1028,6 +1028,7 @@ GameObject:
   - component: {fileID: 848405843}
   - component: {fileID: 848405842}
   - component: {fileID: 848405847}
+  - component: {fileID: 848405848}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1153,6 +1154,28 @@ MonoBehaviour:
   ConnectedScreen: {fileID: 2066062372}
   WarningMessage: {fileID: 1675446034}
   btnConnect: {fileID: 1232168150}
+--- !u!114 &848405848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848405841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &910916829
 GameObject:
   m_ObjectHideFlags: 0
@@ -1847,9 +1870,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 848405842}
-        m_TargetAssemblyTypeName: Launcher, Assembly-CSharp
-        m_MethodName: BTN_Connect
+      - m_Target: {fileID: 848405847}
+        m_TargetAssemblyTypeName: LobbyUI, Assembly-CSharp
+        m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

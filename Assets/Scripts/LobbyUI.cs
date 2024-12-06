@@ -64,6 +64,8 @@ public class LobbyUI : MonoBehaviourPunCallbacks
 
         var playerInfo = Instantiate(prebaUI_playerInfo, parentUI.transform);
         playerInfo.GetComponent<PlayerInformation>().SetTextName(newPlayer.NickName);
+        playerInfo.GetComponent<PlayerInformation>().SetColorPanel(newPlayer == PhotonNetwork.LocalPlayer);
+
         CheckPlayerCount();
     }
 
@@ -72,12 +74,32 @@ public class LobbyUI : MonoBehaviourPunCallbacks
         if (PhotonNetwork.PlayerList.Count() >= 2)
         {
             WarningMessage.SetActive(false);
-            btnConnect.interactable = true;
+
+            if (PhotonNetwork.IsMasterClient)
+                btnConnect.interactable = true;
+            else { 
+                btnConnect.interactable = false;
+                Text buttonText = btnConnect.GetComponentInChildren<Text>();
+                if (buttonText != null)
+                {
+                    buttonText.text = "Wait for the host";
+                }
+            }
         }
     }
 
     public void StartGame()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("StartGameForAll", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    void StartGameForAll()
+    {
+        // Código para iniciar el juego (por ejemplo, cargar la escena)
         PhotonNetwork.LoadLevel("Test_Map");
     }
 
