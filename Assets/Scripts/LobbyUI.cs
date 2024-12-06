@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Linq;
+using UnityEngine.UI;
 
 public class LobbyUI : MonoBehaviourPunCallbacks
 {
@@ -14,12 +16,16 @@ public class LobbyUI : MonoBehaviourPunCallbacks
     public GameObject parentUI;
     public GameObject prebaUI_playerInfo;
     public GameObject ConnectedScreen;
+    public GameObject WarningMessage;
+    public Button btnConnect;
     public void BTN_CreateRoom()
     {
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = 4;
         PhotonNetwork.NickName = userNameField.text;
         PhotonNetwork.CreateRoom(serverNameField.text, options);
+        btnConnect.interactable = false;
+
     }
 
     public void BTN_JoinRoom()
@@ -47,6 +53,9 @@ public class LobbyUI : MonoBehaviourPunCallbacks
             playerInfo.GetComponent<PlayerInformation>().SetTextName(player.NickName);
             playerInfo.GetComponent<PlayerInformation>().SetColorPanel(player == PhotonNetwork.LocalPlayer);
         }
+
+        CheckPlayerCount();
+
     }
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
@@ -55,9 +64,17 @@ public class LobbyUI : MonoBehaviourPunCallbacks
 
         var playerInfo = Instantiate(prebaUI_playerInfo, parentUI.transform);
         playerInfo.GetComponent<PlayerInformation>().SetTextName(newPlayer.NickName);
+        CheckPlayerCount();
     }
 
-
+    private void CheckPlayerCount()
+    {
+        if (PhotonNetwork.PlayerList.Count() >= 2)
+        {
+            WarningMessage.SetActive(false);
+            btnConnect.interactable = true;
+        }
+    }
 
     public void StartGame()
     {
