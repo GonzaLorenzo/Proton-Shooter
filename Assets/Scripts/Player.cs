@@ -83,7 +83,12 @@ public class Player : MonoBehaviourPun, IPunObservable
     {
         _maxGranades = 3;
         _Granades = 3;
+
         LifeBarManager _lifeBarManager = FindObjectOfType<LifeBarManager>();
+        GranadeUI _granadeUI = FindObjectOfType<GranadeUI>();
+
+        onGranadeUiUpdate = _granadeUI.UpdateCount;
+
         _lifeBarManager?.SpawnLifeBar(this);
         _myChildrenRenderers = GetComponentsInChildren<Renderer>();
 
@@ -116,6 +121,7 @@ public class Player : MonoBehaviourPun, IPunObservable
 
         if (!photonView.IsMine) return;
         this.gameObject.name = "PlayerOwner";
+        onGranadeUiUpdate(_Granades);
 
     }
 
@@ -158,6 +164,8 @@ public class Player : MonoBehaviourPun, IPunObservable
 
             PhotonNetwork.Instantiate(_myGranade.name, _projectileSpawner.position, Quaternion.LookRotation(aimDir, Vector3.up));
             StartCoroutine(StartThrowingGranades());
+            _Granades -= 1;
+            onGranadeUiUpdate(_Granades);
 
         }
 
@@ -197,6 +205,7 @@ public class Player : MonoBehaviourPun, IPunObservable
     {
         _life = _maxLife;
         onLifeBarUpdate(_life);
+        onGranadeUiUpdate(_maxGranades);
         _canWalk = true;
         _isDead = false;
         _animator.SetBool("IsDead", _isDead);
@@ -332,12 +341,7 @@ public class Player : MonoBehaviourPun, IPunObservable
             if (_Granades < _maxGranades)
                 _Granades += _maxGranades;
 
-            onLifeBarUpdate(_life);
-
-            if (_life <= 0)
-            {
-                photonView.RPC("RPC_Die", RpcTarget.All);
-            }
+            onGranadeUiUpdate(_Granades);
         }
     }
 

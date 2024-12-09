@@ -46,13 +46,14 @@ public class GameManager : MonoBehaviourPun
     IEnumerator StartGame()
     {
         photonView.RPC("Start_Game", RpcTarget.AllBuffered);
-        yield return null;
+        yield return 10;
 
     }
     [PunRPC]
     void Start_Game()
     {
         door.GetComponent<Animator>().SetBool("isOpen", true);
+        doorTwo.GetComponent<Animator>().SetBool("isOpen", true);
     }
 
 

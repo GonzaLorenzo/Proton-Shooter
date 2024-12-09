@@ -45,6 +45,7 @@ MonoBehaviour:
   - Start_Game
   - RPC_ThrowGranade
   - StartGameForAll
+  - SynDoor
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

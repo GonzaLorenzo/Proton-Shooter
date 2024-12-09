@@ -508,7 +508,7 @@ GameObject:
   - component: {fileID: 988818816783096826}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -568,7 +568,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0046179cf522cb345aa122fe6e488a92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _horizontalTurningSpeed: 2
+  _uiLose: {fileID: 0}
+  _uiWin: {fileID: 0}
   _life: 0
   turnSpeed: 15
   _cameraTurnOffset: 10
@@ -584,6 +585,13 @@ MonoBehaviour:
   _myShoulder: {fileID: 643424616857922694}
   _myThirdPersonCamera: {fileID: 0}
   _myAimingCamera: {fileID: 0}
+  aimColliderLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  debugTransform: {fileID: 0}
+  _Granades: 0
+  _maxGranades: 0
+  _myGranade: {fileID: 0}
 --- !u!54 &694158512247697018
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -42,7 +42,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0.051016767, b: 0, a: 1}
+  m_Color: {r: 0.027350426, g: 1, b: 0, a: 1}
   m_Intensity: 2.24
   m_Range: 10
   m_SpotAngle: 30
@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 3119431005729603105}
   - component: {fileID: 3119431005722235681}
   - component: {fileID: 5459477652653074564}
+  - component: {fileID: -7221775021751512170}
   m_Layer: 7
   m_Name: GranadePicker
   m_TagString: Untagged
@@ -209,3 +210,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8154834, y: 0.3475596, z: 0.62949526}
   m_Center: {x: -0.0068259835, y: 0.1600316, z: 0.0025842488}
+--- !u!114 &-7221775021751512170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3119431005731594465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 536bbfc532059644688f859f63a1b4aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _granadeCount: 3

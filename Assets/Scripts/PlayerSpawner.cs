@@ -19,7 +19,9 @@ public class PlayerSpawner : MonoBehaviour
 
     private void Start()
     {
-        switch (PhotonNetwork.CurrentRoom.PlayerCount)
+        int playerIndex = PhotonNetwork.LocalPlayer.ActorNumber; // ActorNumber comienza desde 1
+
+        switch (playerIndex)
         {
             case 0:
 

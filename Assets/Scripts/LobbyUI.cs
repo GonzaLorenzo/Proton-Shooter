@@ -11,6 +11,7 @@ public class LobbyUI : MonoBehaviourPunCallbacks
     //public UnityEngine.UI.InputField serverNameField;
     public TMPro.TMP_InputField serverNameField;
     public TMPro.TMP_InputField userNameField;
+    public Text serverCode;
 
     public GameObject panelLobby;
     public GameObject parentUI;
@@ -30,6 +31,7 @@ public class LobbyUI : MonoBehaviourPunCallbacks
 
     public void BTN_JoinRoom()
     {
+
         PhotonNetwork.NickName = userNameField.text;
         PhotonNetwork.JoinRoom(serverNameField.text);
     }
@@ -45,6 +47,7 @@ public class LobbyUI : MonoBehaviourPunCallbacks
         LobbyManager lobby = panelLobby.GetComponent<LobbyManager>();
         ConnectedScreen.SetActive(false);
 
+        serverCode.text = "Server Code: " + PhotonNetwork.CurrentRoom.Name;
 
         foreach (var player in PhotonNetwork.PlayerList)
         {
@@ -77,7 +80,8 @@ public class LobbyUI : MonoBehaviourPunCallbacks
 
             if (PhotonNetwork.IsMasterClient)
                 btnConnect.interactable = true;
-            else { 
+            else
+            {
                 btnConnect.interactable = false;
                 Text buttonText = btnConnect.GetComponentInChildren<Text>();
                 if (buttonText != null)
